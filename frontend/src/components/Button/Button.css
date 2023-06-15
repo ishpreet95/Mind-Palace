@@ -1,0 +1,17 @@
+.customButton {
+  margin: 1em 0em;
+  padding: 0.9em;
+  width: 100%;
+  border: none;
+  border-radius: 0.4em;
+  background-color: var(--dark-blue);
+  color: white;
+  box-shadow: -12px -12px 20px rgba(255, 255, 255, 0.7),
+    10px 10px 20px rgba(146, 168, 203, 0.7);
+  font-weight: bold;
+  font-size: 0.95em;
+}
+.light-blue-back {
+  background-color: var(--background-blue);
+  color: black;
+}

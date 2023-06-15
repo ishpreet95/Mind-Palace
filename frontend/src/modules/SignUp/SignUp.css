@@ -1,0 +1,22 @@
+.leftPane {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--background-blue);
+  flex: 4;
+}
+.rightPane {
+  background-color: white;
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+.centerBox {
+  width: 50%;
+}
