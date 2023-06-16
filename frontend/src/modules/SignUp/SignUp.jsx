@@ -44,9 +44,9 @@ const SignUp = () => {
         <div className="centerBox">
           <div className="altFont">Get ready to build your Mind Palace</div>
           <div className="mainFont">Sign Up</div>
-          <Input />
-          <Input />
-          <Input />
+          <Input label="Email" />
+          <Input label="Password" />
+          <Input label="Confirm Password" />
           <Button text="Sign Up" onClick={onSignUpHandler} />
           <Divider>Or</Divider>
           <Button

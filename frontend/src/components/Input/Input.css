@@ -1,0 +1,22 @@
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  font-family: "Lato", sans-serif;
+  font-size: 0.75em;
+  margin: 1.5em 0em;
+}
+
+input {
+  border: none;
+  background-color: rgba(236, 240, 243, 0.5);
+  box-shadow: 10px 10px 20px rgba(166, 180, 203, 0.7),
+    -12px -12px 20px rgba(255, 255, 255, 0.8);
+  border-radius: 0.4em;
+  font-size: 1.5em;
+  padding: 0.9em;
+  font-family: "Lato", sans-serif;
+  caret-color: #4895ef;
+}
+input:focus {
+  outline: none;
+}

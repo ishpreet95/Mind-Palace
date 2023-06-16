@@ -5,7 +5,7 @@
   flex: 4;
 }
 .rightPane {
-  background-color: white;
+  background-color: #feffff;
   flex: 3;
   display: flex;
   flex-direction: column;
