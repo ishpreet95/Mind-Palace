@@ -9,6 +9,7 @@ import { Slide } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import SignUpVector from "../../assets/SignUpVector";
 import Logo from "../../assets/Logo";
+import Google from "../../assets/google.png";
 const SignUp = () => {
   const [open, setOpen] = useState(false);
   const onSignUpHandler = () => {
@@ -54,7 +55,14 @@ const SignUp = () => {
       {/* Right half os the sign up page */}
       <div className="rightPane">
         <div className="centerBox">
-          <div className="altFont">Get ready to build your Mind Palace</div>
+          <div
+            className="altFont"
+            style={{
+              textShadow: "0px 1px 1px rgba(0, 0, 0, 0.25)",
+            }}
+          >
+            Get ready to build your Mind Palace
+          </div>
           <div className="mainFont h1">Sign Up</div>
           <Input label="Email" />
           <PasswordInput label="Password" />
@@ -63,13 +71,19 @@ const SignUp = () => {
           <Divider id="divider" style={{ margin: "0.7em", fontFamily: "Lato" }}>
             Or
           </Divider>
-          <Button
-            backG="light-blue-back"
-            text="Sign in with Google"
-            onClick={GoogleSignUpHandler}
-          />
+          <div className="googleSignUp altFont" onClick={GoogleSignUpHandler}>
+            <img src={Google} height={25} width={25} />
+            <span
+              style={{
+                margin: "0 0.5em",
+                textShadow: "0px 1px 1px rgba(0, 0, 0, 0.25)",
+              }}
+            >
+              Sign Up with Google
+            </span>
+          </div>
           <center className="altFont bottomText">
-            Already have an account?
+            Already have an account?&nbsp;
             <span style={{ color: "#F72585" }}>Sign In</span>
           </center>
         </div>
