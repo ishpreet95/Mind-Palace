@@ -5,7 +5,12 @@ const Input = (props) => {
       <label htmlFor="customInput" style={{ zIndex: 10 }}>
         {props.label}
       </label>
-      <input type="text" id="customInput" style={{ fontFamily: "Lato" }} />
+      <input
+        type="text"
+        id="customInput"
+        style={{ fontFamily: "Lato" }}
+        required
+      />
     </div>
   );
 };

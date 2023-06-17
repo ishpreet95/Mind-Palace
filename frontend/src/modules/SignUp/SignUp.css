@@ -1,12 +1,12 @@
 .leftPane {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: var(--background-blue);
-  flex: 4;
+  flex: 5;
 }
 .rightPane {
   background-color: #feffff;
-  flex: 3;
+  flex: 4;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,4 +19,16 @@
 }
 .centerBox {
   width: 50%;
+}
+.rightPane .h1 {
+  font-family: "DM Serif Display", sans-serif;
+  font-size: 2.7em;
+  margin: 0.9em 0em;
+}
+.rightPane .bottomText {
+  margin-top: 5em;
+}
+.leftPane .title {
+  font-size: 1.5em;
+  margin: auto 0em;
 }
