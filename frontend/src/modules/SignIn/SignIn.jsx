@@ -50,10 +50,10 @@ const SignIn = () => {
             Welcome Back!
           </div>
           <div className="mainFont h1">Sign In</div>
-          <Input label="Email" caretColor="pink" />
-          <PasswordInput label="Password" caretColor="pink" />
+          <Input label="Email" theme="pink-input" />
+          <PasswordInput label="Password" theme="pink-input" />
           <Button
-            backG="pink-button"
+            theme="pink-button"
             text="Sign In"
             onClick={onSignInHandler}
           />
