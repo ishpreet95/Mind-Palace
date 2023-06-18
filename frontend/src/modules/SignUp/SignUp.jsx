@@ -25,7 +25,7 @@ const SignUp = () => {
     setOpen(false);
   };
   return (
-    <div className="box">
+    <div className="signUpBox">
       {/* for alerts */}
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -64,10 +64,14 @@ const SignUp = () => {
             Get ready to build your Mind Palace
           </div>
           <div className="mainFont h1">Sign Up</div>
-          <Input label="Email" />
-          <PasswordInput label="Password" />
-          <PasswordInput label="Confirm Password" />
-          <Button text="Sign Up" onClick={onSignUpHandler} />
+          <Input label="Email" caretColor="blue" />
+          <PasswordInput label="Password" caretColor="blue" />
+          <PasswordInput label="Confirm Password" caretColor="blue" />
+          <Button
+            backG="blue-button"
+            text="Sign Up"
+            onClick={onSignUpHandler}
+          />
           <Divider id="divider" style={{ margin: "0.7em", fontFamily: "Lato" }}>
             Or
           </Divider>

@@ -4,10 +4,6 @@
   width: 100%;
   border: none;
   border-radius: 0.4em;
-  background-color: var(--dark-blue);
-  color: white;
-  box-shadow: -12px -12px 20px rgba(255, 255, 255, 0.7),
-    10px 10px 20px rgba(146, 168, 203, 0.7);
   font-weight: bold;
   font-size: 0.95em;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
@@ -15,4 +11,16 @@
 .light-blue-back {
   background-color: var(--background-blue);
   color: black;
+}
+.blue-button {
+  background-color: var(--dark-blue);
+  color: white;
+  box-shadow: -12px -12px 20px rgba(255, 255, 255, 0.7),
+    10px 10px 20px rgba(146, 168, 203, 0.7);
+}
+.pink-button {
+  background-color: var(--dark-pink);
+  color: white;
+  box-shadow: -12px -12px 20px rgba(255, 255, 255, 0.8),
+    10px 10px 20px rgba(252, 43, 121, 0.2);
 }
