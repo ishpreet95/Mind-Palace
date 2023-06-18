@@ -7,15 +7,16 @@ const PasswordInput = (props) => {
   const toggle = () => {
     setShowPassword(!showPassword);
   };
+  // const klass = `inputBox ${props.caretColor} `;
   return (
     <div className="inputBox">
       <label htmlFor={props.label} style={{ zIndex: 10 }}>
         {props.label}
       </label>
       <input
+        className={props.caretColor}
         type={showPassword ? "text" : "password"}
         id={props.label}
-        style={{ fontFamily: "Lato" }}
         required
       />
       {/* <span className="icon" onClick={toggle}>

@@ -1,6 +1,6 @@
-import vector from "./signup.svg";
+import vector from "./signin.svg";
 import "./assets.css";
-const SignUpVector = () => {
+const SignInVector = () => {
   return (
     <div className="svgBox">
       <img src={vector} />
@@ -8,4 +8,4 @@ const SignUpVector = () => {
   );
 };
 
-export default SignUpVector;
+export default SignInVector;

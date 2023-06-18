@@ -1,0 +1,51 @@
+.googleSignIn {
+  margin: 1em 0em;
+  padding: 0.9em;
+  border: none;
+  border-radius: 0.4em;
+  /* box-shadow: -12px -12px 20px rgba(255, 255, 255, 0.8),
+    10px 10px 20px rgba(194, 98, 134, 0.15); */
+  font-weight: bold;
+  font-size: 1em;
+  background-color: #ffd9e7;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.signInBox .leftPane .h1 {
+  font-family: "DM Serif Display", sans-serif;
+  font-size: 2.7em;
+  margin: 0.9em 0em;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+}
+.signInBox .leftPane .bottomText {
+  margin-top: 5em;
+
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+}
+.signInBox .rightPane .title {
+  font-size: 1.5em;
+  margin: auto 0em;
+  margin-right: 0.5em;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+}
+.signInBox .leftPane {
+  background-color: #fffcfe;
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.signInBox .rightPane {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-pink);
+  flex: 5;
+}
+.signInBox {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
