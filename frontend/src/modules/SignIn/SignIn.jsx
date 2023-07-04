@@ -10,13 +10,22 @@ import Divider from "@mui/material/Divider";
 import SignInVector from "../../assets/SignInVector";
 import Logo from "../../assets/Logo";
 import Google from "../../assets/google.png";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios";
 const SignIn = () => {
+  // const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const onSignInHandler = () => {
     setOpen(true);
   };
   const GoogleSignInHandler = () => {
-    alert("Google Sign Up attempt");
+    // try {
+    //   await axios.get("http://localhost:5000/google");
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    window.open("http://localhost:5000/auth/google", "_self");
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -50,10 +59,10 @@ const SignIn = () => {
             Welcome Back!
           </div>
           <div className="mainFont h1">Sign In</div>
-          <Input label="Email" caretColor="pink" />
-          <PasswordInput label="Password" caretColor="pink" />
+          <Input label="Email" theme="pink-input" />
+          <PasswordInput label="Password" theme="pink-input" />
           <Button
-            backG="pink-button"
+            theme="pink-button"
             text="Sign In"
             onClick={onSignInHandler}
           />
@@ -73,7 +82,9 @@ const SignIn = () => {
           </div>
           <center className="altFont bottomText">
             Don&apos;t have an account?&nbsp;
-            <span style={{ color: "#0732FF" }}>Sign Up</span>
+            <Link className="noDecoration" to="/sign-up">
+              <span style={{ color: "#0732FF" }}>Sign Up</span>
+            </Link>
           </center>
         </div>
       </div>

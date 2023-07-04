@@ -5,13 +5,13 @@
   font-size: 0.75em;
   margin: 1.5em 0em;
 }
-.pink {
+.inputBox .pink-input {
   caret-color: #f72585;
   background-color: #fffbfd;
   box-shadow: -12px -12px 20px rgba(255, 255, 255, 0.8),
     10px 10px 20px rgba(194, 98, 134, 0.15);
 }
-.blue {
+.inputBox .blue-input {
   caret-color: #4895ef;
   background-color: rgba(236, 240, 243, 0.5);
   box-shadow: 10px 10px 20px rgba(166, 180, 203, 0.7),

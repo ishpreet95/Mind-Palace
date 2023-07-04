@@ -137,3 +137,6 @@ table {
 .altFont {
   font-family: "Lato", sans-serif;
 }
+.noDecoration {
+  text-decoration: none;
+}

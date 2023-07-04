@@ -1,4 +1,5 @@
 import "./SignUp.css";
+// import { useContext } from "react";
 import { useState } from "react";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
@@ -10,14 +11,38 @@ import Divider from "@mui/material/Divider";
 import SignUpVector from "../../assets/SignUpVector";
 import Logo from "../../assets/Logo";
 import Google from "../../assets/google.png";
+import { Link } from "react-router-dom";
+//theme context
+// const theme = {
+//   sigin: "pink-theme",
+//   signup: "blue-theme",
+// };
+// export const ThemeContext = createContext(null);
 const SignUp = () => {
+  //states
   const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  //handlers
+  const emailChangeHandler = (e) => {
+    setEmail(e.target.value);
+    // console.log(e.target.value);
+  };
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+  };
+  const confirmPasswordChangeHandler = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+  //sign up functions
   const onSignUpHandler = () => {
     setOpen(true);
   };
   const GoogleSignUpHandler = () => {
     alert("Google Sign Up attempt");
   };
+  //snackbar functions
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -64,14 +89,35 @@ const SignUp = () => {
             Get ready to build your Mind Palace
           </div>
           <div className="mainFont h1">Sign Up</div>
-          <Input label="Email" caretColor="blue" />
-          <PasswordInput label="Password" caretColor="blue" />
-          <PasswordInput label="Confirm Password" caretColor="blue" />
+          {/* using ThemeContext to pass down pink theme to input and button */}
+          {/* <ThemeContext.Provider value="blue-input"> */}
+          <Input
+            theme="blue-input"
+            value={email}
+            label="Email"
+            onChange={emailChangeHandler}
+          />
+          {/* <p>{email}</p> */}
+          <PasswordInput
+            value={password}
+            label="Password"
+            theme="blue-input"
+            onChange={passwordChangeHandler}
+          />
+          <PasswordInput
+            value={confirmPassword}
+            label="Confirm Password"
+            theme="blue-input"
+            onChange={confirmPasswordChangeHandler}
+          />
+          {/* </ThemeContext.Provider> */}
+          {/* <ThemeContext.Provider value="blue-button"> */}
           <Button
-            backG="blue-button"
+            theme="blue-button"
             text="Sign Up"
             onClick={onSignUpHandler}
           />
+          {/* </ThemeContext.Provider> */}
           <Divider id="divider" style={{ margin: "0.7em", fontFamily: "Lato" }}>
             Or
           </Divider>
@@ -86,9 +132,12 @@ const SignUp = () => {
               Sign Up with Google
             </span>
           </div>
+
           <center className="altFont bottomText">
             Already have an account?&nbsp;
-            <span style={{ color: "#F72585" }}>Sign In</span>
+            <Link className="noDecoration" to="/sign-in">
+              <span style={{ color: "#F72585" }}>Sign In</span>
+            </Link>
           </center>
         </div>
       </div>
