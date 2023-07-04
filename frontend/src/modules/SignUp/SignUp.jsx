@@ -11,6 +11,7 @@ import Divider from "@mui/material/Divider";
 import SignUpVector from "../../assets/SignUpVector";
 import Logo from "../../assets/Logo";
 import Google from "../../assets/google.png";
+import { Link } from "react-router-dom";
 //theme context
 // const theme = {
 //   sigin: "pink-theme",
@@ -134,7 +135,9 @@ const SignUp = () => {
 
           <center className="altFont bottomText">
             Already have an account?&nbsp;
-            <span style={{ color: "#F72585" }}>Sign In</span>
+            <Link className="noDecoration" to="/sign-in">
+              <span style={{ color: "#F72585" }}>Sign In</span>
+            </Link>
           </center>
         </div>
       </div>
