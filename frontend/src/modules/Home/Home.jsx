@@ -1,29 +1,46 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 const Home = () => {
   const [profile, setProfile] = useState(null);
-  const getProfile = async () => {
+  // const getProfile = async () => {
+  //   try {
+  //     const res = await axios.get("http://localhost:5000/api/profile");
+  //     // setProfile(JSON.parse(JSON.stringify(res.data)));
+  //     setProfile(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
+  const login = () => {
+    window.location.href = "http://localhost:5000/auth/google";
+  };
+  const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile");
-      // setProfile(JSON.parse(JSON.stringify(res.data)));
+      const res = await axios.get("http://localhost:5000/api/profile", {
+        withCredentials: true,
+      });
+      console.log(res);
       setProfile(res.data);
     } catch (err) {
       console.log(err);
     }
   };
-  useEffect(() => {
-    getProfile();
-  }, []);
+  console.log(profile);
   return (
     <div>
+      <h1>Home</h1>
+      <button onClick={fetchProfile}>Get profile</button>
       {profile ? (
-        <>
-          <div>{profile.access_token}</div>
-          <div>{profile.expires_in}</div>
-          <div>{profile.id_token}</div>
-        </>
+        <div>
+          <h1>Access Token: </h1>
+          <p>{profile.access_token}</p>
+          <p>temporary profile name: {profile.name}</p>
+        </div>
       ) : (
-        <div>Loading.....</div>
+        <button onClick={login}>Login</button>
       )}
     </div>
   );
