@@ -1,22 +1,25 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+const api = axios.create({
+  baseURL: "http://localhost:5000", // Replace with your backend server URL
+});
 const Home = () => {
-  const [profile, setProfile] = useState(null);
-  const getProfile = async () => {
+  const [auth, setAuth] = useState(null);
+  const getAuth = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile");
-      // setProfile(JSON.parse(JSON.stringify(res.data)));
-      setProfile(res.data);
+      const res = await api.get("/auth");
+      setAuth(res.data);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    getProfile();
+    getAuth();
   }, []);
   return (
     <div>
-      {profile ? (
+      {/* {profile ? (
         <>
           <div>{profile.access_token}</div>
           <div>{profile.expires_in}</div>
@@ -24,7 +27,8 @@ const Home = () => {
         </>
       ) : (
         <div>Loading.....</div>
-      )}
+      )} */}
+      Welcome Home!!
     </div>
   );
 };

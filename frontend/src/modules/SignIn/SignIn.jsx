@@ -10,22 +10,19 @@ import Divider from "@mui/material/Divider";
 import SignInVector from "../../assets/SignInVector";
 import Logo from "../../assets/Logo";
 import Google from "../../assets/google.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 // import axios from "axios";
+
 const SignIn = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const onSignInHandler = () => {
     setOpen(true);
   };
   const GoogleSignInHandler = () => {
-    // try {
-    //   await axios.get("http://localhost:5000/google");
-    // } catch (err) {
-    //   console.log(err);
-    // }
-    window.open("http://localhost:5000/auth/google", "_self");
+    navigate("/");
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
