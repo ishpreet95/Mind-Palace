@@ -4,8 +4,7 @@ const Home = () => {
   const [profile, setProfile] = useState(null);
   const getProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile");
-      // setProfile(JSON.parse(JSON.stringify(res.data)));
+      const res = await axios.get("http://localhost:5000/auth/user");
       setProfile(res.data);
     } catch (err) {
       console.log(err);
@@ -18,9 +17,10 @@ const Home = () => {
     <div>
       {profile ? (
         <>
-          <div>{profile.access_token}</div>
+          {/* <div>{profile.access_token}</div>
           <div>{profile.expires_in}</div>
-          <div>{profile.id_token}</div>
+          <div>{profile.id_token}</div> */}
+          <div>{profile.name}</div>
         </>
       ) : (
         <div>Loading.....</div>

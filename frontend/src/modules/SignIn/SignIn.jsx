@@ -20,11 +20,6 @@ const SignIn = () => {
     setOpen(true);
   };
   const GoogleSignInHandler = () => {
-    // try {
-    //   await axios.get("http://localhost:5000/google");
-    // } catch (err) {
-    //   console.log(err);
-    // }
     window.open("http://localhost:5000/auth/google", "_self");
   };
   const handleClose = (event, reason) => {
