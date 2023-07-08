@@ -16,49 +16,64 @@ app.use(
 );
 app.use(
   session({
-    secret: "your_secret_key",
+    secret:
+      "YxMDM5MzE1IiwiZW1haWwiOiJpc2hImF0X2hhc2giOiJzUDdZWF9hazNTZWJDQ3hKbENBa3hnIiwibmFtZSI6IklzaHByZWV0IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9",
+    //dont save session if nothing is modified
     resave: false,
+    //dont create session until something is stored
     saveUninitialized: false,
-    cookie: { maxAge: maxAge },
+    cookie: {
+      maxAge: maxAge,
+      //make it true for requests from HTTPS
+      secure: false,
+    },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
+//sets user in session
 passport.serializeUser(function (user, done) {
   process.nextTick(function () {
     return done(null, user);
   });
 });
-
+//dont know what it does
 passport.deserializeUser(function (user, done) {
   process.nextTick(function () {
-    // console.log(user);
     return done(null, user);
   });
 });
 
 const port = process.env.PORT || 5000;
+//
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
 // app.set("view engine", "ejs");
 
-app.get("/auth/google", strat.authenticate("google", { scope: ["profile"] }));
-// let profile = "";
+app.get(
+  "/auth/google",
+  //here email parameter is necessary, passport can't identify unique user without email
+  strat.authenticate("google", { scope: ["profile", "email"] })
+);
 app.get(
   "/auth/google/callback",
   strat.authenticate("google", {
-    // successRedirect: "/dashboard",
-    failureRedirect: "/login",
+    failureRedirect: "/auth/google",
   }),
   (req, res) => {
+    // Successful authentication, redirect home.
     res.redirect("http://localhost:5173/");
   }
 );
+//getting user from session
 app.get("/auth/user", (req, res) => {
   console.log(req.session);
-  console.log(req.user);
-  res.send(req.user);
+  if (req.user === undefined) {
+    return res.status(403).send("user not logged in");
+  } else {
+    return res.send(req.user);
+  }
 });
 
 app.listen(port, () => console.log("server running on port " + port));

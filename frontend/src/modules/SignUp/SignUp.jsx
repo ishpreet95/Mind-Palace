@@ -40,7 +40,7 @@ const SignUp = () => {
     setOpen(true);
   };
   const GoogleSignUpHandler = () => {
-    alert("Google Sign Up attempt");
+    window.open("http://localhost:5000/auth/google", "_self");
   };
   //snackbar functions
   const handleClose = (event, reason) => {
