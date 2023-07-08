@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 const Home = () => {
-  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState(null);
   const getProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/auth/user");
-      setProfile(res.data);
+      const res = await axios.get("http://localhost:5000/auth/user", {
+        //don't you ever funcking forget this you idiot
+        withCredentials: true,
+      });
+      setUser(res.data);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -15,12 +19,11 @@ const Home = () => {
   }, []);
   return (
     <div>
-      {profile ? (
+      {user ? (
         <>
-          {/* <div>{profile.access_token}</div>
-          <div>{profile.expires_in}</div>
-          <div>{profile.id_token}</div> */}
-          <div>{profile.name}</div>
+          <div>{user.access_token}</div>
+          <div>{user.expires_in}</div>
+          <div>{user.id_token}</div>
         </>
       ) : (
         <div>Loading.....</div>
