@@ -18,10 +18,10 @@ app.use(
   session({
     secret:
       "YxMDM5MzE1IiwiZW1haWwiOiJpc2hImF0X2hhc2giOiJzUDdZWF9hazNTZWJDQ3hKbENBa3hnIiwibmFtZSI6IklzaHByZWV0IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9",
-    //dont save session if nothing is modified
-    resave: false,
-    //dont create session until something is stored
-    saveUninitialized: false,
+    //save session if nothing is modified
+    resave: true,
+    //create session when something is stored
+    saveUninitialized: true,
     cookie: {
       maxAge: maxAge,
       //make it true for requests from HTTPS
@@ -45,7 +45,6 @@ passport.deserializeUser(function (user, done) {
   });
 });
 
-const port = process.env.PORT || 5000;
 //
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
@@ -76,4 +75,5 @@ app.get("/auth/user", (req, res) => {
   }
 });
 
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log("server running on port " + port));
