@@ -1,23 +1,22 @@
 const express = require("express");
-const strat = require("./google-oauth");
+const strat = require("./api/passport/google-oauth");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-const db = require("./db");
+const db = require("./api/firebase/config");
 require("dotenv").config();
 const app = express();
 const maxAge = 30 * 24 * 60 * 60 * 1000;
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: `${process.env.CLIENT_URL}`,
     credentials: true,
   })
 );
 app.use(
   session({
-    secret:
-      "YxMDM5MzE1IiwiZW1haWwiOiJpc2hImF0X2hhc2giOiJzUDdZWF9hazNTZWJDQ3hKbENBa3hnIiwibmFtZSI6IklzaHByZWV0IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9",
+    secret: `${process.env.SESSION_SECRET}`,
     //save session if nothing is modified
     resave: true,
     //create session when something is stored
@@ -35,7 +34,7 @@ app.use(passport.session());
 //sets user in session
 passport.serializeUser(function (user, done) {
   process.nextTick(function () {
-    //setting user id in session
+    //setting user.sub as user_id in session
     const decodedToken = jwt.decode(user.id_token);
     const user_id = decodedToken.sub;
     return done(null, user_id);
@@ -67,28 +66,28 @@ app.get(
   async (req, res) => {
     //On successful authentication
     const decodedToken = jwt.decode(req.user.id_token);
-    // const { sub, email, name, picture, iat, email_verified } = decodedToken;
     const user = {
       email: decodedToken.email,
       name: decodedToken.name,
       picture: decodedToken.picture,
-      iat: decodedToken.iat,
+      created_at: decodedToken.iat,
       email_verified: decodedToken.email_verified,
     };
-    const userRef = db.collection("users").doc(decodedToken.sub);
-    const doc = await userRef.get();
+    const userDoc = db.collection("users").doc(decodedToken.sub);
+    const doc = await userDoc.get();
     if (!doc.exists) {
       console.log("User does not exist, new profile created");
-      await userRef.set(user);
+      await userDoc.set(user);
     } else {
       console.log("User exists: ", doc.data());
     }
     // Redirects home.
-    res.redirect("http://localhost:5173/");
+    res.redirect(`${process.env.CLIENT_URL}`);
   }
 );
-//getting user from session
+//getting user_id from session
 app.get("/auth/user", (req, res) => {
+  // console.log(req.session);
   if (req.user === undefined) {
     return res.status(403).send("user not logged in");
   } else {
@@ -96,5 +95,5 @@ app.get("/auth/user", (req, res) => {
   }
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 app.listen(port, () => console.log("server running on port " + port));
