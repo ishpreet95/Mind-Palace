@@ -1,32 +1,33 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Loader from "../../components/Loader/Loader.jsx";
 const Home = () => {
-  const [user, setUser] = useState(null);
-  const getProfile = async () => {
+  const [userId, setUserId] = useState(null);
+  const getUserId = async () => {
     try {
       const res = await axios.get("http://localhost:5000/auth/user", {
         //don't you ever funcking forget this you idiot
         withCredentials: true,
       });
-      setUser(res.data);
+      setUserId(res.data);
       console.log(res.data);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    getProfile();
+    getUserId();
   }, []);
   return (
     <div>
-      {user ? (
+      {userId ? (
         <>
-          <div>{user.access_token}</div>
-          <div>{user.expires_in}</div>
-          <div>{user.id_token}</div>
+          <div>{userId}</div>
         </>
       ) : (
-        <div>Loading.....</div>
+        <div>
+          <Loader />
+        </div>
       )}
     </div>
   );

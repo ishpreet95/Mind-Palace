@@ -1,27 +1,26 @@
-const admin = require("firebase-admin");
-const db = require("./db");
 const express = require("express");
-const strat = require("./google-oauth");
+const strat = require("./api/passport/google-oauth");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const db = require("./api/firebase/config");
 require("dotenv").config();
 const app = express();
 const maxAge = 30 * 24 * 60 * 60 * 1000;
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: `${process.env.CLIENT_URL}`,
     credentials: true,
   })
 );
 app.use(
   session({
-    secret:
-      "YxMDM5MzE1IiwiZW1haWwiOiJpc2hImF0X2hhc2giOiJzUDdZWF9hazNTZWJDQ3hKbENBa3hnIiwibmFtZSI6IklzaHByZWV0IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9",
-    //dont save session if nothing is modified
-    resave: false,
-    //dont create session until something is stored
-    saveUninitialized: false,
+    secret: `${process.env.SESSION_SECRET}`,
+    //save session if nothing is modified
+    resave: true,
+    //create session when something is stored
+    saveUninitialized: true,
     cookie: {
       maxAge: maxAge,
       //make it true for requests from HTTPS
@@ -35,7 +34,10 @@ app.use(passport.session());
 //sets user in session
 passport.serializeUser(function (user, done) {
   process.nextTick(function () {
-    return done(null, user);
+    //setting user.sub as user_id in session
+    const decodedToken = jwt.decode(user.id_token);
+    const user_id = decodedToken.sub;
+    return done(null, user_id);
   });
 });
 //dont know what it does
@@ -45,7 +47,6 @@ passport.deserializeUser(function (user, done) {
   });
 });
 
-const port = process.env.PORT || 5000;
 //
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
@@ -56,19 +57,37 @@ app.get(
   //here email parameter is necessary, passport can't identify unique user without email
   strat.authenticate("google", { scope: ["profile", "email"] })
 );
+
 app.get(
   "/auth/google/callback",
   strat.authenticate("google", {
     failureRedirect: "/auth/google",
   }),
-  (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect("http://localhost:5173/");
+  async (req, res) => {
+    //On successful authentication
+    const decodedToken = jwt.decode(req.user.id_token);
+    const user = {
+      email: decodedToken.email,
+      name: decodedToken.name,
+      picture: decodedToken.picture,
+      created_at: decodedToken.iat,
+      email_verified: decodedToken.email_verified,
+    };
+    const userDoc = db.collection("users").doc(decodedToken.sub);
+    const doc = await userDoc.get();
+    if (!doc.exists) {
+      console.log("User does not exist, new profile created");
+      await userDoc.set(user);
+    } else {
+      console.log("User exists: ", doc.data());
+    }
+    // Redirects home.
+    res.redirect(`${process.env.CLIENT_URL}`);
   }
 );
-//getting user from session
+//getting user_id from session
 app.get("/auth/user", (req, res) => {
-  console.log(req.session);
+  // console.log(req.session);
   if (req.user === undefined) {
     return res.status(403).send("user not logged in");
   } else {
@@ -76,4 +95,5 @@ app.get("/auth/user", (req, res) => {
   }
 });
 
+const port = process.env.PORT;
 app.listen(port, () => console.log("server running on port " + port));
