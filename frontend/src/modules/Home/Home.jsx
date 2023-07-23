@@ -5,7 +5,7 @@ const Home = () => {
   const [userId, setUserId] = useState(null);
   const getUserId = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/auth/user", {
+      const res = await axios.get("http://localhost:5000/api/v1/auth/user", {
         //don't you ever funcking forget this you idiot
         withCredentials: true,
       });
