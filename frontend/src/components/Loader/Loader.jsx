@@ -57,27 +57,27 @@ const Loader = () => {
       gsap.delayedCall(i / (allEll.length - 1), animate, [c, i + 1]);
     });
 
-    gsap.to("#aiGrad", {
-      duration: 4,
-      delay: 0.75,
-      attr: {
-        x1: "-=300",
-        x2: "-=300",
-      },
-      scale: 1.2,
-      transformOrigin: "50% 50%",
-      repeat: -1,
-      ease: "none",
-    });
+    // gsap.to("#aiGrad", {
+    //   duration: 4,
+    //   delay: 0.75,
+    //   attr: {
+    //     x1: "-=300",
+    //     x2: "-=300",
+    //   },
+    //   scale: 1.2,
+    //   transformOrigin: "50% 50%",
+    //   repeat: -1,
+    //   ease: "none",
+    // });
 
-    gsap.to("#ai", {
-      duration: 1,
-      scale: 1.1,
-      transformOrigin: "50% 50%",
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
+    // gsap.to("#ai", {
+    //   duration: 1,
+    //   scale: 1.1,
+    //   transformOrigin: "50% 50%",
+    //   repeat: -1,
+    //   yoyo: true,
+    //   ease: "sine.inOut",
+    // });
   }, []);
 
   return (
@@ -86,7 +86,7 @@ const Loader = () => {
         ref={svgRef}
         id="mainSVG"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 800 600"
+        viewBox="0 0 800 800"
       >
         <defs>
           <linearGradient
@@ -106,37 +106,37 @@ const Loader = () => {
           </linearGradient>
         </defs>
 
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <ellipse className="ell" cx="400" cy="300" rx="80" ry="80" />
-        <path
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        <ellipse className="ell" cx="400" cy="400" rx="250" ry="250" />
+        {/* <path
           id="ai"
           opacity="0.85"
           d="m417.17,323.85h-34.34c-3.69,0-6.67-2.99-6.67-6.67v-34.34c0-3.69,2.99-6.67,6.67-6.67h34.34c3.69,0,6.67,2.99,6.67,6.67v34.34c0,3.69-2.99,6.67-6.67,6.67Zm-5.25-12.92v-21.85c0-.55-.45-1-1-1h-21.85c-.55,0-1,.45-1,1v21.85c0,.55.45,1,1,1h21.85c.55,0,1-.45,1-1Zm23.08-16.29h-11.15m-47.69,0h-11.15m70,10.73h-11.15m-47.69,0h-11.15m40.37,29.63v-11.15m0-47.69v-11.15m-10.73,70v-11.15m0-47.69v-11.15"
@@ -144,7 +144,8 @@ const Loader = () => {
           strokeLinecap="round"
           strokeMiterlimit="10"
           strokeWidth="2"
-        />
+          transform="translate(0, 100) "
+        /> */}
       </svg>
     </div>
   );

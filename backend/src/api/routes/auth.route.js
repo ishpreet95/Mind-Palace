@@ -36,6 +36,7 @@ router.route("/user").get((req, res) => {
   // console.log(req.session);
   if (req.user === undefined) {
     return res.status(403).send("user not logged in");
+    // res.redirect(`${process.env.CLIENT_URL}/sign-up`);
   } else {
     return res.send(req.user);
   }
