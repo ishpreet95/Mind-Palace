@@ -9,7 +9,12 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import Notes from "../Notes/Notes.jsx";
 import Todos from "../Todos/Todos.jsx";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { exampleOne } from "../../slices/exampleSlice.js";
 const Home = () => {
+  // const exampleOut=useSelector()
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
   const getUserId = async () => {
@@ -31,6 +36,11 @@ const Home = () => {
   useEffect(() => {
     getUserId();
   }, []);
+
+  const exampleDispatch = () => {
+    dispatch(exampleOne("is it working?"));
+  };
+
   return (
     <>
       {userId ? (
@@ -48,6 +58,7 @@ const Home = () => {
               <Notes />
             </TabPanel>
           </Tabs>
+          <button onClick={exampleDispatch}>disptach an action</button>
         </>
       ) : (
         <Loader />
