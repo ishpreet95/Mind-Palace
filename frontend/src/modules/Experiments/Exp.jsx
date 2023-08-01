@@ -1,5 +1,9 @@
-import { useState, useEffect, useReducer } from "react";
-import expReducer from "../../reducers";
+import {
+  useState,
+  useEffect,
+  //  useReducer
+} from "react";
+// import expReducer from "../../reducers";
 // import { BlockNoteEditor } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/core/style.css";
@@ -8,7 +12,7 @@ const Exp = () => {
   const [count, setCount] = useState(0);
   const [inpoot, setInpoot] = useState("");
   //useReducer
-  const [num, dispatch] = useReducer(expReducer, 0);
+  // const [num, dispatch] = useReducer(expReducer, 0);
 
   //   const editor = useBlockNote({
   //     onEditorContentChange: (editor) => {
@@ -56,10 +60,10 @@ const Exp = () => {
         refer to react docs
       </div>
       <div style={{ backgroundColor: "yellow" }}>
-        useReducer <hr />
+        {/* useReducer <hr />
         <div>{num}</div>
         <button onClick={() => dispatch({ type: "increment" })}>+</button>
-        <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+        <button onClick={() => dispatch({ type: "decrement" })}>-</button> */}
       </div>
       <BlockNoteView editor={editor} />
       {/* <BlockNoteEditor /> */}
