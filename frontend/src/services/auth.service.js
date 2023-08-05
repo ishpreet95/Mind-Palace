@@ -63,6 +63,15 @@ const resetPass = async (id, token, password, confirmPassword) => {
   return response;
 };
 
+const getUser = async () => {
+  const response = await Axios.axiosAuth.get("/user", {
+    //don't you ever funcking forget this you idiot
+    withCredentials: true,
+  });
+  console.log(response.data);
+  return response;
+};
+
 // logout user
 const logout = () => {
   localStorage.removeItem("user");
@@ -77,6 +86,7 @@ const AuthService = {
   checkUser,
   resetPass,
   googleAuth,
+  getUser,
 };
 
 export default AuthService;
