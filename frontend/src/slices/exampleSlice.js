@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 // import AuthService from "../services/auth.service";
 const initialState = {
   // Your initial state goes here
-  exampleOne: {},
+  exampleone: {},
+  exampletwo: {},
 };
 
 const exampleSlice = createSlice({
@@ -12,8 +13,10 @@ const exampleSlice = createSlice({
   reducers: {
     // Your slice's reducers go here
     exampleOne: (state, action) => {
-      // state.exampleOne.push({ name: "ishiboi", text: action.payload });
-      state.exampleOne = { name: "ishiboi", text: action.payload };
+      // state.push({ name: "ishiboi", text: action.payload });
+      state.exampleone = { name: "ishiboi", text: action.payload };
+      // // return a new data
+      // return [...state, exampleone];
     },
   },
 });
