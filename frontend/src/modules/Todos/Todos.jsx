@@ -1,6 +1,14 @@
-import "./Todos.css";
+import classes from "./todos.module.css";
+import TodoList from "../../components/TodoList/TodoList";
 const Todos = () => {
-  return <div>Todos</div>;
+  return (
+    <div className={classes.todos}>
+      <TodoList type="noStatus" />
+      <TodoList type="upcoming" />
+      <TodoList type="inProgress" />
+      <TodoList type="completed" />
+    </div>
+  );
 };
 
 export default Todos;

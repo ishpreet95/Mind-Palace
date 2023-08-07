@@ -1,0 +1,41 @@
+.todocard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1em;
+  /* width: 100%; */
+  background-color: white;
+  padding: 0.8em 1em;
+  border-radius: 10px;
+  color: black;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+.content {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 0em 0em 0.5em 0em;
+}
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  color: #717171;
+}
+.status {
+  border-radius: 5px;
+  padding: 0.3em 0.8em;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

@@ -5,6 +5,10 @@
   --background-pink: #ffc7e8;
   --dark-blue: #03045e;
   --dark-pink: #ff005f;
+  --noStatus: #f8781b;
+  --upcoming: #c307e2;
+  --inProgress: #2564bf;
+  --completed: #1ec103;
 }
 html,
 body,
@@ -139,4 +143,36 @@ table {
 }
 .noDecoration {
   text-decoration: none;
+}
+.noStatus {
+  background: #fed8c8;
+  color: #f8781b;
+}
+.upcoming {
+  background: #fadaff;
+  color: #c307e2;
+}
+.inProgress {
+  background: #bed8ff;
+  color: #2564bf;
+}
+.completed {
+  background: #c7ffbe;
+  color: #1ec103;
+}
+.danger {
+  background: #ffe2e2;
+  color: #ff1c1c;
+}
+.warning {
+  background: #fff9c8;
+  color: #f8781b;
+}
+.success {
+  background: #c7ffbe;
+  color: #1ec103;
+}
+.dangerBorder {
+  stroke-width: 1px;
+  border: 2px dashed #ff2121;
 }
