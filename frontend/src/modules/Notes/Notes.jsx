@@ -1,6 +1,6 @@
-import "./Notes.css";
+import classes from "./notes.module.css";
 const Notes = () => {
-  return <div>Notes</div>;
+  return <div className={classes.notes}>Notes</div>;
 };
 
 export default Notes;

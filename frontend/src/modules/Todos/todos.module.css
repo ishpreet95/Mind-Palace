@@ -1,0 +1,9 @@
+.todos {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  /* width: 100%; */
+  background-color: aliceblue;
+  gap: 1em;
+  padding: 1em;
+}

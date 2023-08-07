@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import Loader from "../../components/Loader/Loader.jsx";
 import Tabs from "@mui/joy/Tabs";
 import TabList from "@mui/joy/TabList";
@@ -12,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { exampleOne } from "../../slices/exampleSlice.js";
 import { getUser } from "../../slices/authSlice.js";
+import classes from "./home.module.css";
+
 const Home = () => {
   // const exampleOut=useSelector()
   const dispatch = useDispatch();
@@ -38,23 +39,43 @@ const Home = () => {
 
   return (
     <>
-      {auth.userId ? (
-        <>
+      {!auth.userId ? (
+        <div className={classes.app}>
           <Navbar />
-          <Tabs defaultValue={1}>
-            <TabList>
-              <Tab value={1}>To-dos</Tab>
-              <Tab value={2}>Notes</Tab>
-            </TabList>
-            <TabPanel value={1} sx={{ p: 2 }}>
-              <Todos />
-            </TabPanel>
-            <TabPanel value={2} sx={{ p: 2 }}>
-              <Notes />
-            </TabPanel>
-          </Tabs>
-          <button onClick={exampleDispatch}>disptach an action</button>
-        </>
+          <div className={classes.content}>
+            <Tabs defaultValue={0} sx={{ display: "flex", flex: "1" }}>
+              <TabList>
+                <Tab value={0}>To-dos</Tab>
+                <Tab value={1}>Notes</Tab>
+              </TabList>
+              <TabPanel
+                value={0}
+                sx={{
+                  p: 2,
+                  // display: "flex",
+                  // flex: "1",
+                  paddingLeft: "0em",
+                  paddingRight: "0em",
+                }}
+              >
+                <Todos />
+              </TabPanel>
+              <TabPanel
+                value={1}
+                sx={{
+                  p: 2,
+                  // display: "flex",
+                  // flex: "1",
+                  paddingLeft: "0em",
+                  paddingRight: "0em",
+                }}
+              >
+                <Notes />
+              </TabPanel>
+            </Tabs>
+            {/* <button onClick={exampleDispatch}>disptach an action</button> */}
+          </div>
+        </div>
       ) : (
         <Loader />
       )}

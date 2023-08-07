@@ -7,9 +7,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* position: fixed; */
-  width: 100%;
   z-index: 1;
+  flex: 0 0 auto;
 }
 .navbar .title {
   font-size: 30px;
