@@ -4,8 +4,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.5em;
-  padding: 0.5em;
+  gap: 0.7em;
+  padding: 0.7em;
   border-radius: 10px;
 }
 .header {
@@ -17,7 +17,7 @@
 }
 .content {
   display: flex;
-  gap: 0.5em;
+  gap: 0.7em;
   flex-direction: column;
   width: 100%;
 }
@@ -32,4 +32,16 @@
   padding: 0.3em;
   font-size: 0.9em;
   font-weight: 500;
+}
+.addTodo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed;
+  border-radius: 10px;
+  border-width: 2px;
+  padding: 0.5em 1em;
+  font-weight: 500;
+  background-color: #ffffff42;
+  margin: 0.3em 0em;
 }

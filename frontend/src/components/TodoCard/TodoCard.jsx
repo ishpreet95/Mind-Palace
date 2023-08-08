@@ -7,7 +7,7 @@ const TodoCard = (props) => {
     success: "Low",
   };
   return (
-    <div className={`${classes.todocard} dangerBorder`}>
+    <div className={`${classes.todocard} `}>
       <div className={classes.header}>
         <MoreHorizIcon sx={{ fontSize: "22px", cursor: "pointer" }} />
       </div>
