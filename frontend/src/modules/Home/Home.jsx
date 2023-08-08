@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Loader from "../../components/Loader/Loader.jsx";
 import Tabs from "@mui/joy/Tabs";
 import TabList from "@mui/joy/TabList";
-import Tab from "@mui/joy/Tab";
+import Tab, { tabClasses } from "@mui/joy/Tab";
 import TabPanel from "@mui/joy/TabPanel";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import Notes from "../Notes/Notes.jsx";
@@ -43,10 +43,35 @@ const Home = () => {
         <div className={classes.app}>
           <Navbar />
           <div className={classes.content}>
-            <Tabs defaultValue={0} sx={{ display: "flex", flex: "1" }}>
-              <TabList>
-                <Tab value={0}>To-dos</Tab>
-                <Tab value={1}>Notes</Tab>
+            <Tabs
+              aria-label="tabs"
+              defaultValue={0}
+              sx={{
+                display: "flex",
+                flex: "1",
+                backgroundColor: "transparent",
+              }}
+            >
+              <TabList
+                disableUnderline
+                tabFlex={1}
+                sx={{
+                  p: 0.5,
+                  gap: 0.5,
+                  borderRadius: "xl",
+                  bgcolor: "background.level1",
+                  [`& .${tabClasses.root}[aria-selected="true"]`]: {
+                    boxShadow: "sm",
+                    bgcolor: "background.surface",
+                  },
+                }}
+              >
+                <Tab value={0} disableIndicator>
+                  To-dos
+                </Tab>
+                <Tab value={1} disableIndicator>
+                  Notes
+                </Tab>
               </TabList>
               <TabPanel
                 value={0}

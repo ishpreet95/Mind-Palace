@@ -1,5 +1,6 @@
 import classes from "./todoList.module.css";
 import TodoCard from "../TodoCard/TodoCard";
+import CreateTodoCard from "../CreateTodoCard/CreateTodoCard";
 const Todo = (props) => {
   const type = props.type;
   const titles = {
@@ -33,6 +34,8 @@ const Todo = (props) => {
         {/* {props.children} */}
         <TodoCard status="warning" />
         <TodoCard status="danger" />
+        <CreateTodoCard />
+        <div className={`${classes.addTodo} `}>+ Add Todo</div>
       </div>
     </div>
   );
