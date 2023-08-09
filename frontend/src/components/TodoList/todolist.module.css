@@ -7,6 +7,7 @@
   gap: 0.7em;
   padding: 0.7em;
   border-radius: 10px;
+  width: 25%;
 }
 .header {
   display: flex;
@@ -44,4 +45,5 @@
   font-weight: 500;
   background-color: #ffffff42;
   margin: 0.3em 0em;
+  cursor: pointer;
 }

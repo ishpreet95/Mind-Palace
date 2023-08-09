@@ -7,28 +7,57 @@ import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Slider from "@mui/joy/Slider";
-const CreateTodoCard = () => {
+import { postTodo } from "../../slices/todosSlice";
+import { useDispatch, useSelector } from "react-redux";
+const CreateTodoCard = (props) => {
+  const dispatch = useDispatch();
+  const [todo, setTodo] = useState("");
   const [endDate, setEndDate] = useState(dayjs("2021-01-01"));
+  const [severity, setSeverity] = useState(0);
+  const [sliderColor, setSliderColor] = useState("success");
+  const type = props.type;
   const marks = [
     {
       value: 0,
       label: "Low",
     },
     {
-      value: 50,
+      value: 1,
       label: "Medium",
     },
 
     {
-      value: 100,
+      value: 2,
       label: "High",
     },
   ];
+
+  const severityHandler = (event, value) => {
+    setSeverity(value);
+    if (value === 0) {
+      setSliderColor("success");
+    } else if (value === 2) {
+      setSliderColor("danger");
+    } else {
+      setSliderColor("primary");
+    }
+    console.log(value);
+  };
+
+  const createTodoHandler = () => {
+    const newTodo = {
+      title: todo,
+      endDate: endDate,
+      severity: severity,
+      type: type,
+    };
+    dispatch(postTodo(newTodo));
+  };
   return (
     <div className={classes.createtodocard}>
       <div className={classes.header}>
         <div className={classes.title}>Create Todo</div>
-        <div>
+        <div onClick={props.closeCreateTodo}>
           <CloseIcon fontSize="small" sx={{ cursor: "pointer" }} />
         </div>
       </div>
@@ -43,21 +72,42 @@ const CreateTodoCard = () => {
             fontSize: "16px",
             fontWeight: "400",
           }}
+          onChange={(e) => setTodo(e.target.value)}
         />
       </div>
-      <div className={classes.status}>
-        <div style={{ width: "90%", fontSize: "14px" }}>Task Status</div>
+      <div
+        className={classes.status}
+        style={{
+          backgroundColor:
+            sliderColor === "success"
+              ? "#C7FFBE"
+              : sliderColor === "danger"
+              ? "#FFE2E2"
+              : "#BED8FF",
+        }}
+      >
+        <div
+          style={{
+            width: "90%",
+            fontSize: "14px",
+          }}
+        >
+          Task Severity
+        </div>
         <Slider
           aria-label="Custom marks"
           defaultValue={0}
-          step={50}
+          step={1}
+          max={2}
           valueLabelDisplay="off"
           marks={marks}
           size="sm"
           sx={{ width: "80%" }}
+          color={sliderColor}
+          onChange={severityHandler}
         />
       </div>
-      <div className={classes.enddate} sx={{}}>
+      <div className={classes.enddate}>
         <div style={{ width: "90%", fontSize: "13px", fontWeight: "500" }}>
           Last Due Date
         </div>
@@ -75,7 +125,9 @@ const CreateTodoCard = () => {
           />
         </LocalizationProvider>
       </div>
-      <button className={classes.btn}>Done</button>
+      <button className={classes.btn} onClick={createTodoHandler}>
+        Done
+      </button>
     </div>
   );
 };
