@@ -39,7 +39,7 @@ const Home = () => {
 
   return (
     <>
-      {!auth.userId ? (
+      {auth.userId ? (
         <div className={classes.app}>
           <Navbar />
           <div className={classes.content}>

@@ -5,8 +5,17 @@ const axiosAuth = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
-const Axios = { axiosAuth };
+const axiosTodos = axios.create({
+  baseURL: "http://localhost:5000/api/v1/todos",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
+const Axios = { axiosAuth, axiosTodos };
 
 export default Axios;

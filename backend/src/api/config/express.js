@@ -10,6 +10,7 @@ const maxAge = 30 * 24 * 60 * 60 * 1000;
 app.use(
   cors({
     origin: `${process.env.CLIENT_URL}`,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 );
