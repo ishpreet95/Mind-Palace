@@ -20,12 +20,13 @@ const TodosSlice = createSlice({
       .addCase(postTodo.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(postTodo.fulfilled, (state, action) => {
+      .addCase(postTodo.fulfilled, (state) => {
         state.status = "succeeded";
       })
       .addCase(postTodo.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        state.code = action.error.code;
       });
   },
 });

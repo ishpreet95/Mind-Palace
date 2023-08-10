@@ -5,6 +5,7 @@ const axiosAuth = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  //don't you ever funcking forget this you idiot
   withCredentials: true,
 });
 
@@ -13,6 +14,7 @@ const axiosTodos = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  //don't you ever funcking forget this you idiot
   withCredentials: true,
 });
 
