@@ -15,6 +15,7 @@ import {
 import Todos from "./modules/Todos/Todos";
 import Navbar from "./components/Navbar/Navbar";
 import { useSelect } from "@mui/base";
+import Notes from "./modules/Notes/Notes";
 const theme = {
   sigin: "pink-theme",
   signup: "blue-theme",
@@ -35,8 +36,10 @@ function App() {
             <Route
               element={isLoggedIn ? <Layout /> : <Navigate to="/sign-in" />}
             >
-              <Route exact path="/" element={<Home />} />
-              <Route path="/todos" element={<Todos />} />
+              <Route exact path="/" element={<Home />}>
+                <Route path="/todos" element={<Todos />} />
+                <Route path="/notes" element={<Notes />} />
+              </Route>
             </Route>
           </Routes>
         </ThemeContext.Provider>
@@ -49,7 +52,6 @@ export default App;
 const Layout = () => {
   return (
     <>
-      {" "}
       <div className={classes.app}>
         <Navbar />
         <div className={classes.content}>

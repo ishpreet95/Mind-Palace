@@ -4,15 +4,19 @@ require("dotenv").config();
 const router = require("express").Router();
 
 router.route("/").get(async (req, res) => {
+  // console.log(req.user);
   const todosRef = db
     .collection("users")
-    .doc(`110677755243261039315`)
+    .doc(`${req.user}`)
+    // .doc("110677755243261039315")
     .collection("todos");
   const snapshot = await todosRef.get();
+  let allTodos = [];
   snapshot.forEach((doc) => {
-    console.log(doc.id, "=>", doc.data());
+    allTodos.push(doc.data());
   });
-  res.status(200).send(snapshot);
+  // console.log(allTodos);
+  res.status(200).send(allTodos);
 });
 
 router.route("/todo").post(async (req) => {

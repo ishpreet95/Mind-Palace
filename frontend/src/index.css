@@ -161,15 +161,15 @@ table {
   background: #c7ffbe;
   color: #1ec103;
 }
-.danger {
+.High {
   background: #ffe2e2;
   color: #ff1c1c;
 }
-.warning {
+.Medium {
   background: #fff9c8;
   color: #f8781b;
 }
-.success {
+.Low {
   background: #c7ffbe;
   color: #1ec103;
 }

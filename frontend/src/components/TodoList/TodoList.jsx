@@ -4,7 +4,9 @@ import TodoCard from "../TodoCard/TodoCard";
 import CreateTodoCard from "../CreateTodoCard/CreateTodoCard";
 const Todo = (props) => {
   const [showCreateTodoCard, setShowCreateTodoCard] = useState(false);
+  const data = props.data;
   const type = props.type;
+  // console.log(props);
   const titles = {
     noStatus: "No Status",
     upcoming: "Upcoming",
@@ -37,14 +39,13 @@ const Todo = (props) => {
       </div>
       <div className={classes.content}>
         {/* {props.children} */}
-        <TodoCard status="warning" type={props.type} />
-        <TodoCard status="danger" type={props.type} />
+        {data.map((todo, key) => (
+          <TodoCard key={key} todo={todo} />
+        ))}
+
         {showCreateTodoCard ? (
           <div className={`transition ${showCreateTodoCard ? "active" : ""}`}>
-            <CreateTodoCard
-              closeCreateTodo={closeCreateTodo}
-              type={props.type}
-            />
+            <CreateTodoCard closeCreateTodo={closeCreateTodo} type={type} />
           </div>
         ) : (
           <></>

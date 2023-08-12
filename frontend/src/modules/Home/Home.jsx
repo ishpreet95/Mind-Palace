@@ -6,7 +6,7 @@ import Tab, { tabClasses } from "@mui/joy/Tab";
 import TabPanel from "@mui/joy/TabPanel";
 import Notes from "../Notes/Notes.jsx";
 import Todos from "../Todos/Todos.jsx";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // import { exampleOne } from "../../slices/exampleSlice.js";
 import { getUser } from "../../slices/authSlice.js";
@@ -63,12 +63,24 @@ const Home = () => {
                 },
               }}
             >
-              <Tab value={0} disableIndicator onClick={() => navigate("todos")}>
-                To-dos
-              </Tab>
-              <Tab value={1} disableIndicator>
-                Notes
-              </Tab>
+              <Link
+                to="/todos"
+                className="noDecoration"
+                style={{ display: "flex", flex: "1" }}
+              >
+                <Tab value={0} disableIndicator sx={{ flex: "1" }}>
+                  To-dos
+                </Tab>
+              </Link>
+              <Link
+                to="/notes"
+                className="noDecoration"
+                style={{ display: "flex", flex: "1" }}
+              >
+                <Tab value={1} disableIndicator sx={{ flex: "1" }}>
+                  Notes
+                </Tab>
+              </Link>
             </TabList>
             <TabPanel
               value={0}
@@ -80,7 +92,8 @@ const Home = () => {
                 paddingRight: "0em",
               }}
             >
-              <Todos />
+              {/* <Todos /> */}
+              <Outlet />
             </TabPanel>
             <TabPanel
               value={1}
@@ -92,7 +105,8 @@ const Home = () => {
                 paddingRight: "0em",
               }}
             >
-              <Notes />
+              {/* <Notes /> */}
+              <Outlet />
             </TabPanel>
           </Tabs>
 
