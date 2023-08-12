@@ -9,8 +9,15 @@ const postTodo = async (newTodo) => {
   return response;
 };
 
+const getTodos = async () => {
+  const response = await Axios.axiosTodos.get("/", {});
+  // console.log(response.data);
+  return response;
+};
+
 const TodosService = {
   postTodo,
+  getTodos,
 };
 
 export default TodosService;

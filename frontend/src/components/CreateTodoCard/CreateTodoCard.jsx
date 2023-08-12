@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 const CreateTodoCard = (props) => {
   const dispatch = useDispatch();
   const [todo, setTodo] = useState("");
-  const [endDate, setEndDate] = useState(dayjs("2021-01-01"));
+  const [endDate, setEndDate] = useState(dayjs(new Date()));
   const [severity, setSeverity] = useState(0);
   const [sliderColor, setSliderColor] = useState("success");
   const type = props.type;

@@ -6,12 +6,16 @@ import IconButton from "@mui/joy/IconButton";
 import Menu from "@mui/joy/Menu";
 import MenuButton from "@mui/joy/MenuButton";
 import MenuItem from "@mui/joy/MenuItem";
-import MoreVert from "@mui/icons-material/MoreVert";
+import dayjs from "dayjs";
+
 const TodoCard = (props) => {
+  // console.log(props);
+  const todo = props.todo;
+  const endDate = dayjs(todo.endDate).format("DD MMM YYYY");
   const mapping = {
-    danger: "High",
-    warning: "Medium",
-    success: "Low",
+    2: "High",
+    1: "Medium",
+    0: "Low",
   };
   const deleteTodoHandler = () => {
     console.log("delete todo");
@@ -36,11 +40,11 @@ const TodoCard = (props) => {
           </Menu>
         </Dropdown>
       </div>
-      <div className={classes.content}>Content here</div>
+      <div className={classes.content}>{todo.title}</div>
       <div className={classes.footer}>
-        <div className={classes.date}>24 July</div>
-        <div className={`${classes.status} ${props.status} `}>
-          {mapping[props.status]}
+        <div className={classes.date}>{endDate}</div>
+        <div className={`${classes.status} ${mapping[todo.severity]}`}>
+          {mapping[todo.severity]}
         </div>
       </div>
     </div>
