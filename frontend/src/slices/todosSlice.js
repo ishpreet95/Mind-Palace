@@ -12,6 +12,10 @@ export const postTodo = createAsyncThunk("todos/postTodo", async (newTodo) => {
   return response.data;
 });
 
+export const addTodo = createAsyncThunk("todos/addTodo", (newTodo) => {
+  return newTodo;
+});
+
 export const getTodos = createAsyncThunk("todos/", async () => {
   const response = await TodosService.getTodos();
   // console.log(response.data);
@@ -38,6 +42,10 @@ const TodosSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         // console.log(action.payload);
         state.all = action.payload;
+      })
+      .addCase(addTodo.fulfilled, (state, action) => {
+        // console.log(action.payload);
+        state.all.push(action.payload);
       });
   },
 });

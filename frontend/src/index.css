@@ -159,19 +159,19 @@ table {
 }
 .completed {
   background: #c7ffbe;
-  color: #1ec103;
+  color: #00ac07;
 }
 .High {
   background: #ffe2e2;
   color: #ff1c1c;
 }
 .Medium {
-  background: #fff9c8;
-  color: #f8781b;
+  background: #ffedbe;
+  color: #eb7000;
 }
 .Low {
   background: #c7ffbe;
-  color: #1ec103;
+  color: #00792c;
 }
 .dangerBorder {
   stroke-width: 1px;

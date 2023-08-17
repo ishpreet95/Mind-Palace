@@ -7,8 +7,9 @@ import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Slider from "@mui/joy/Slider";
-import { postTodo } from "../../slices/todosSlice";
+import { postTodo, addTodo } from "../../slices/todosSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 const CreateTodoCard = (props) => {
   const dispatch = useDispatch();
   const [todo, setTodo] = useState("");
@@ -51,10 +52,24 @@ const CreateTodoCard = (props) => {
       severity: severity,
       type: type,
     };
-    dispatch(postTodo(newTodo));
+    dispatch(addTodo(newTodo));
+    props.closeCreateTodo();
+    dispatch(postTodo(newTodo))
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
-    <div className={classes.createtodocard}>
+    <motion.div
+      // key="model"
+      // initial={{ opacity: 0, y: 20 }} // Initial animation state
+      // animate={{ opacity: 1, y: 0 }} // Animation when the card appears
+      // exit={{ opacity: 0, y: -20 }} // Animation when the card exits
+      // transition={{ type: "spring", damping: 10, stiffness: 100 }}
+      className={classes.createtodocard}
+    >
+      {/* <div className={classes.createtodocard}> */}
       <div className={classes.header}>
         <div className={classes.title}>Create Todo</div>
         <div onClick={props.closeCreateTodo}>
@@ -109,7 +124,7 @@ const CreateTodoCard = (props) => {
       </div>
       <div className={classes.enddate}>
         <div style={{ width: "90%", fontSize: "13px", fontWeight: "500" }}>
-          Last Due Date
+          Due Date
         </div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField
@@ -128,7 +143,8 @@ const CreateTodoCard = (props) => {
       <button className={classes.btn} onClick={createTodoHandler}>
         Done
       </button>
-    </div>
+      {/* </div> */}
+    </motion.div>
   );
 };
 
