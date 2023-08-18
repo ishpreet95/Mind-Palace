@@ -2,6 +2,8 @@ import { useState } from "react";
 import classes from "./todoList.module.css";
 import TodoCard from "../TodoCard/TodoCard";
 import CreateTodoCard from "../CreateTodoCard/CreateTodoCard";
+import { AnimatePresence, motion } from "framer-motion";
+import { Droppable } from "react-beautiful-dnd";
 const Todo = (props) => {
   const [showCreateTodoCard, setShowCreateTodoCard] = useState(false);
   const data = props.data;
@@ -16,15 +18,27 @@ const Todo = (props) => {
   const closeCreateTodo = () => {
     setShowCreateTodoCard(false);
   };
+  // console.log(type);
   return (
-    <div className={`${classes.todolist} ${type}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }} // Initial animation state
+      animate={{ opacity: 1, y: 0 }} // Animation when the card appears
+      exit={{ opacity: 0, y: -20 }} // Animation when the card exits
+      transition={{
+        type: "spring",
+        damping: 10,
+        stiffness: 100,
+        duration: 0.5,
+      }}
+      className={`${classes.todolist} ${type}`}
+    >
       <div className={classes.header}>
         <div
           className={classes.title}
           style={{
-            fontSize: "20px",
+            fontSize: "22px",
             fontStyle: "normal",
-            fontWeight: "700",
+            fontWeight: "600",
             lineHeight: "normal",
           }}
         >
@@ -34,30 +48,50 @@ const Todo = (props) => {
           className={classes.count}
           style={{ backgroundColor: `var(--${type})` }}
         >
-          0
+          {data.length}
         </div>
       </div>
-      <div className={classes.content}>
-        {/* {props.children} */}
-        {data.map((todo, key) => (
-          <TodoCard key={key} todo={todo} />
-        ))}
 
-        {showCreateTodoCard ? (
-          <div className={`transition ${showCreateTodoCard ? "active" : ""}`}>
-            <CreateTodoCard closeCreateTodo={closeCreateTodo} type={type} />
-          </div>
-        ) : (
-          <></>
-        )}
-        <div
-          className={`${classes.addTodo} `}
-          onClick={() => setShowCreateTodoCard(true)}
-        >
-          + Add Todo
-        </div>
+      <div className={classes.content}>
+        <AnimatePresence>
+          {showCreateTodoCard ? (
+            <motion.div
+              key="model"
+              initial={{ opacity: 0, y: 20 }} // Initial animation state
+              animate={{ opacity: 1, y: 0 }} // Animation when the card appears
+              exit={{ opacity: 0, y: -10 }} // Animation when the card exits
+              transition={{ duration: 0.3 }} // Animation duration
+            >
+              <CreateTodoCard closeCreateTodo={closeCreateTodo} type={type} />
+            </motion.div>
+          ) : (
+            <>
+              <div
+                className={`${classes.addTodo} `}
+                onClick={() => setShowCreateTodoCard(true)}
+              >
+                + Add Todo
+              </div>
+            </>
+          )}
+        </AnimatePresence>
+
+        <Droppable droppableId={type}>
+          {(provided) => (
+            <div
+              className={classes.cards}
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {data.map((todo, key) => (
+                <TodoCard key={todo.id} todo={todo} index={key} />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

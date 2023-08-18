@@ -24,15 +24,20 @@
 }
 .count {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   border-radius: 50%;
-  width: 1.2em;
-  height: 1.2em;
+  width: 1.4em;
+  height: 1.4em;
   color: white;
   padding: 0.3em;
-  font-size: 0.9em;
-  font-weight: 500;
+  font-size: 1em;
+  font-weight: 600;
+}
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
 }
 .addTodo {
   display: flex;
@@ -46,4 +51,5 @@
   background-color: #ffffff42;
   margin: 0.3em 0em;
   cursor: pointer;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.142);
 }

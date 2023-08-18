@@ -5,8 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  flex: 1;
 }
 #mainSVG {
   width: 20%;

@@ -1,0 +1,19 @@
+.boxRow {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  padding: 1em;
+}
+.boxCol {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  padding: 1em;
+  flex-direction: column;
+}
+.blue {
+  background-color: blue;
+}
+.red {
+  background-color: red;
+}
