@@ -25,9 +25,9 @@ router.route("/todo").post(async (request, response) => {
     .collection("users")
     .doc(`${request.user}`)
     .collection("todos")
-    .doc();
-  //putting auto generated id in newTodo
-  newTodo.id = statusDoc.id;
+    .doc(newTodo.id);
+  // //putting auto generated id in newTodo
+  // newTodo.id = statusDoc.id;
   console.log(newTodo);
   const res = await statusDoc.set(newTodo);
   response.status(200).send("Todo added");

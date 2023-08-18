@@ -52,7 +52,7 @@ const CreateTodoCard = (props) => {
       severity: severity,
       type: type,
     };
-    dispatch(addTodo(newTodo));
+    dispatch(addTodo(newTodo, type));
     props.closeCreateTodo();
     dispatch(postTodo(newTodo))
       .then((response) => {})
@@ -62,11 +62,11 @@ const CreateTodoCard = (props) => {
   };
   return (
     <motion.div
-      // key="model"
-      // initial={{ opacity: 0, y: 20 }} // Initial animation state
-      // animate={{ opacity: 1, y: 0 }} // Animation when the card appears
-      // exit={{ opacity: 0, y: -20 }} // Animation when the card exits
-      // transition={{ type: "spring", damping: 10, stiffness: 100 }}
+      key="model"
+      initial={{ opacity: 0, y: 20 }} // Initial animation state
+      animate={{ opacity: 1, y: 0 }} // Animation when the card appears
+      exit={{ opacity: 0, y: -20 }} // Animation when the card exits
+      transition={{ type: "spring", damping: 10, stiffness: 100 }}
       className={classes.createtodocard}
     >
       {/* <div className={classes.createtodocard}> */}

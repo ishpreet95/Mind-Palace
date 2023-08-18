@@ -60,12 +60,13 @@ const Exp = () => {
   // ]);
   const [items, setItems] = useState(todos);
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
+  const reorder = (startIndex, endIndex) => {
+    console.log(startIndex, endIndex);
+    const newList = [...items];
+    const [removed] = newList.splice(startIndex, 1);
+    newList.splice(endIndex, 0, removed);
 
-    return result;
+    return newList;
   };
   //react-beautiful-dnd
   const onBeforeCapture = () => {
@@ -86,7 +87,7 @@ const Exp = () => {
     if (!result.destination) {
       return;
     }
-    setItems(reorder(items, result.source.index, result.destination.index));
+    setItems(reorder(result.source.index, result.destination.index));
   };
   const handleOrder = (newOrder) => {
     setItems(newOrder);
@@ -212,6 +213,7 @@ const Exp = () => {
           </button>
         </div>
       </div>
+
       <DragDropContext
         onBeforeCapture={onBeforeCapture}
         onBeforeDragStart={onBeforeDragStart}
@@ -223,68 +225,15 @@ const Exp = () => {
           <Droppable droppableId="droppableOne">
             {(provided, snapshot) => (
               <div
+                className={`${classes.boxCol} ${classes.red}`}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                <div className={`${classes.boxCol} ${classes.red}`}>
-                  {items.map((item, index) => (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                        >
-                          <TodoCard todo={item} />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="droppableTwo">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                <div className={`${classes.boxCol} ${classes.red}`}>
-                  {items.map((item, index) => (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                        >
-                          <TodoCard todo={item} />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
+                {items.map((item, index) => (
+                  <TodoCard key={item.id} todo={item} index={index} />
+                ))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>

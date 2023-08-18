@@ -34,6 +34,11 @@
   font-size: 1em;
   font-weight: 600;
 }
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+}
 .addTodo {
   display: flex;
   align-items: center;

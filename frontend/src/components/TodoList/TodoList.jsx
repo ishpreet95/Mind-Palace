@@ -3,6 +3,7 @@ import classes from "./todoList.module.css";
 import TodoCard from "../TodoCard/TodoCard";
 import CreateTodoCard from "../CreateTodoCard/CreateTodoCard";
 import { AnimatePresence, motion } from "framer-motion";
+import { Droppable } from "react-beautiful-dnd";
 const Todo = (props) => {
   const [showCreateTodoCard, setShowCreateTodoCard] = useState(false);
   const data = props.data;
@@ -17,6 +18,7 @@ const Todo = (props) => {
   const closeCreateTodo = () => {
     setShowCreateTodoCard(false);
   };
+  // console.log(type);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }} // Initial animation state
@@ -49,11 +51,8 @@ const Todo = (props) => {
           {data.length}
         </div>
       </div>
+
       <div className={classes.content}>
-        {/* {props.children} */}
-        {data.map((todo, key) => (
-          <TodoCard key={key} todo={todo} />
-        ))}
         <AnimatePresence>
           {showCreateTodoCard ? (
             <motion.div
@@ -66,16 +65,31 @@ const Todo = (props) => {
               <CreateTodoCard closeCreateTodo={closeCreateTodo} type={type} />
             </motion.div>
           ) : (
-            <></>
+            <>
+              <div
+                className={`${classes.addTodo} `}
+                onClick={() => setShowCreateTodoCard(true)}
+              >
+                + Add Todo
+              </div>
+            </>
           )}
         </AnimatePresence>
 
-        <div
-          className={`${classes.addTodo} `}
-          onClick={() => setShowCreateTodoCard(true)}
-        >
-          + Add Todo
-        </div>
+        <Droppable droppableId={type}>
+          {(provided) => (
+            <div
+              className={classes.cards}
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {data.map((todo, key) => (
+                <TodoCard key={todo.id} todo={todo} index={key} />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </div>
     </motion.div>
   );

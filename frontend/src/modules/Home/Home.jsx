@@ -51,7 +51,6 @@ const Home = () => {
           >
             <TabList
               disableUnderline
-              tabFlex={1}
               sx={{
                 p: 0.5,
                 gap: 0.5,
