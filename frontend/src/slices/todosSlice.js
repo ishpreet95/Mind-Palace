@@ -2,6 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import TodosService from "../services/todos.service";
 import { nanoid } from "nanoid";
 
+function nonceComparator(firstTodo, secondTodo) {
+  return firstTodo.nonce - secondTodo.nonce;
+}
+
 const initialState = {
   todo: {},
   all: [],
@@ -11,17 +15,34 @@ const initialState = {
   completed: [],
 };
 
+export const selectListByType = (state, type) => {
+  switch (type) {
+    case "noStatus":
+      return state.todos.noStatus;
+    case "upcoming":
+      return state.todos.upcoming;
+    case "inProgress":
+      return state.todos.inProgress;
+    case "completed":
+      return state.todos.completed;
+    default:
+      return [];
+  }
+};
+
 export const postTodo = createAsyncThunk("todos/postTodo", async (newTodo) => {
   //setting nonce
   let nonce = localStorage.getItem("nonce");
   if (nonce === undefined || nonce === null) {
     nonce = 10000;
   }
-  newTodo.nonce = nonce;
+  newTodo.nonce = Number(nonce);
   //setting todo id
   newTodo.id = nanoid();
 
-  console.log(newTodo);
+  //increase nonce by 100000 for next time
+  localStorage.setItem("nonce", Number(nonce) + 100000);
+
   const response = await TodosService.postTodo(newTodo);
   return response.data;
 });
@@ -33,7 +54,7 @@ export const addTodo = createAsyncThunk("todos/addTodo", (newTodo) => {
   if (nonce === undefined || nonce === null) {
     nonce = 10000;
   }
-  newTodo.nonce = nonce;
+  newTodo.nonce = Number(nonce);
   //setting todo id
   newTodo.id = nanoid();
   return newTodo;
@@ -45,7 +66,10 @@ export const reorderTodos = createAsyncThunk("todos/reorderTodo", (data) => {
 
 export const getTodos = createAsyncThunk("todos/", async () => {
   const response = await TodosService.getTodos();
-  localStorage.setItem("nonce", response.data.length * 100000);
+  //when no todos, reset nonce to 100000
+  if (response.data.length === 0) {
+    localStorage.setItem("nonce", 100000);
+  }
   // console.log(response.data);
   return response.data;
 });
@@ -70,18 +94,25 @@ const TodosSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         // console.log(action.payload);
         state.all = action.payload;
-        state.noStatus = state.all.filter((todo) => todo.type === "noStatus");
-        state.upcoming = state.all.filter((todo) => todo.type === "upcoming");
-        state.inProgress = state.all.filter(
-          (todo) => todo.type === "inProgress"
-        );
-        state.completed = state.all.filter((todo) => todo.type === "completed");
+        state.noStatus = state.all
+          .filter((todo) => todo.type === "noStatus")
+          .sort(nonceComparator);
+        state.upcoming = state.all
+          .filter((todo) => todo.type === "upcoming")
+          .sort(nonceComparator);
+        state.inProgress = state.all
+          .filter((todo) => todo.type === "inProgress")
+          .sort(nonceComparator);
+        state.completed = state.all
+          .filter((todo) => todo.type === "completed")
+          .sort(nonceComparator);
       })
       .addCase(addTodo.fulfilled, (state, action) => {
         console.log(action.payload);
         const newTodo = action.payload;
         if (newTodo.type === "noStatus") {
           state.noStatus.push(newTodo);
+          state.noStatus = [...state.noStatus].sort(nonceComparator);
         }
         if (newTodo.type === "upcoming") {
           state.upcoming.push(newTodo);
@@ -94,14 +125,48 @@ const TodosSlice = createSlice({
         }
       })
       .addCase(reorderTodos.fulfilled, (state, action) => {
-        // console.log(action.payload);
         const { source, destination, draggableId } = action.payload;
-        if (source.droppableId === destination.droppableId) {
-          if (source.droppableId === "noStatus") {
-            const [removed] = state.noStatus.splice(source.index, 1);
-            state.noStatus.splice(destination.index, 0, removed);
-          }
+        const listMapping = {
+          noStatus: state.noStatus,
+          upcoming: state.upcoming,
+          inProgress: state.inProgress,
+          completed: state.completed,
+        };
+        const sourceList = listMapping[source.droppableId];
+        const destinationList = listMapping[destination.droppableId];
+
+        //locally reordering for now
+        const [removed] = sourceList.splice(source.index, 1);
+        removed.type = destination.droppableId;
+
+        //if new list is empty, just push the new one, let the nonce be the previous one
+        if (destinationList.length === 0) {
+          destinationList.push(removed);
+          return;
         }
+
+        let nonceup = 0;
+        let noncedown = 0;
+        let noncenew = 0;
+
+        if (destination.index === 0) {
+          //if coming at the first index
+          nonceup = destinationList[destination.index].nonce;
+        }
+        //if going at the last place
+        else if (destination.index === destinationList.length) {
+          nonceup = destinationList[destination.index - 1].nonce;
+          noncedown = 100000;
+        } else {
+          noncedown = destinationList[destination.index].nonce;
+          nonceup = destinationList[destination.index - 1].nonce;
+        }
+
+        noncenew = (nonceup + noncedown) / 2;
+
+        removed.nonce = noncenew;
+
+        destinationList.splice(destination.index, 0, removed);
       });
   },
 });
