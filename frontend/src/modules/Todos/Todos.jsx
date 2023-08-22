@@ -8,7 +8,7 @@ const Todos = () => {
   const dispatch = useDispatch();
   const toUpdateData = useSelector((state) => {
     // console.log(state.todos.updateTodo);
-    state.todos.toUpdate;
+    return state.todos.toUpdate;
   });
 
   useEffect(() => {
@@ -22,8 +22,11 @@ const Todos = () => {
   }, []);
 
   useEffect(() => {
-    console.log(toUpdateData);
-    if (toUpdateData !== undefined) {
+    if (
+      toUpdateData !== undefined &&
+      toUpdateData !== null &&
+      toUpdateData !== {}
+    ) {
       console.log(toUpdateData);
       dispatch(updateTodo(toUpdateData))
         .then((response) => {})

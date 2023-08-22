@@ -15,11 +15,17 @@ const getTodos = async () => {
   return response;
 };
 
-const updateTodo = async (id, data) => {
-  // console.log(newTodo);
+const updateTodo = async (data) => {
   const response = await Axios.axiosTodos.put(`/todo`, {
     data,
   });
+  // console.log(response.data);
+  return response;
+};
+
+const deleteTodo = async (id) => {
+  console.log(id);
+  const response = await Axios.axiosTodos.delete(`/todo/${id}`);
   // console.log(response.data);
   return response;
 };
@@ -28,6 +34,7 @@ const TodosService = {
   postTodo,
   getTodos,
   updateTodo,
+  deleteTodo,
 };
 
 export default TodosService;

@@ -7,7 +7,7 @@ function nonceComparator(firstTodo, secondTodo) {
 
 const initialState = {
   todo: {},
-  toUpdate: {},
+  toUpdate: null,
   all: [],
   noStatus: [],
   upcoming: [],
@@ -44,7 +44,7 @@ export const postTodo = createAsyncThunk("todos/postTodo", async (newTodo) => {
   //setting nonce
   let nonce = localStorage.getItem("nonce");
   if (nonce === undefined || nonce === null) {
-    nonce = 10000;
+    nonce = 100000;
   }
   newTodo.nonce = Number(nonce);
   //setting todo id
@@ -58,8 +58,13 @@ export const postTodo = createAsyncThunk("todos/postTodo", async (newTodo) => {
 });
 
 export const updateTodo = createAsyncThunk("todos/updateTodo", async (data) => {
-  console.log(data);
   const response = await TodosService.updateTodo(data);
+  return response.data;
+});
+
+export const deleteTodo = createAsyncThunk("todos/deleteTodo", async (id) => {
+  console.log(id);
+  const response = await TodosService.deleteTodo(id);
   return response.data;
 });
 
@@ -75,10 +80,6 @@ export const addTodo = createAsyncThunk("todos/addTodo", (newTodo) => {
   newTodo.id = nanoid();
   return newTodo;
 });
-
-// export const reorderTodos = createAsyncThunk("todos/reorderTodo", (data) => {
-//   return data;
-// });
 
 const TodosSlice = createSlice({
   name: "todos",
@@ -111,8 +112,8 @@ const TodosSlice = createSlice({
       }
       //if going at the last place
       else if (destination.index === destinationList.length) {
-        nonceup = destinationList[destination.index - 1].nonce;
-        noncedown = 100000;
+        nonceup = destinationList[destination.index - 1].nonce * 2;
+        noncedown = 100000 * 2;
       } else {
         noncedown = destinationList[destination.index].nonce;
         nonceup = destinationList[destination.index - 1].nonce;
@@ -121,6 +122,21 @@ const TodosSlice = createSlice({
       removed.nonce = noncenew;
       state.toUpdate = removed;
       destinationList.splice(destination.index, 0, removed);
+    },
+    removeTodo: (state, action) => {
+      const { id, type } = action.payload;
+      if (type === "noStatus") {
+        state.noStatus = state.noStatus.filter((todo) => todo.id !== id);
+      }
+      if (type === "upcoming") {
+        state.upcoming = state.upcoming.filter((todo) => todo.id !== id);
+      }
+      if (type === "inProgress") {
+        state.inProgress = state.inProgress.filter((todo) => todo.id !== id);
+      }
+      if (type === "completed") {
+        state.completed = state.completed.filter((todo) => todo.id !== id);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -176,47 +192,17 @@ const TodosSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
         state.code = action.error.code;
+      })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(deleteTodo.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        state.code = action.error.code;
       });
-    // .addCase(reorderTodos.fulfilled, (state, action) => {
-    //   const { source, destination, draggableId } = action.payload;
-    //   const listMapping = {
-    //     noStatus: state.noStatus,
-    //     upcoming: state.upcoming,
-    //     inProgress: state.inProgress,
-    //     completed: state.completed,
-    //   };
-    //   const sourceList = listMapping[source.droppableId];
-    //   const destinationList = listMapping[destination.droppableId];
-    //   //locally reordering for now
-    //   const [removed] = sourceList.splice(source.index, 1);
-    //   removed.type = destination.droppableId;
-    //   //if new list is empty, just push the new one, let the nonce be the previous one
-    //   if (destinationList.length === 0) {
-    //     destinationList.push(removed);
-    //     return;
-    //   }
-    //   let nonceup = 0;
-    //   let noncedown = 0;
-    //   let noncenew = 0;
-    //   if (destination.index === 0) {
-    //     //if coming at the first index
-    //     nonceup = destinationList[destination.index].nonce;
-    //   }
-    //   //if going at the last place
-    //   else if (destination.index === destinationList.length) {
-    //     nonceup = destinationList[destination.index - 1].nonce;
-    //     noncedown = 100000;
-    //   } else {
-    //     noncedown = destinationList[destination.index].nonce;
-    //     nonceup = destinationList[destination.index - 1].nonce;
-    //   }
-    //   noncenew = (nonceup + noncedown) / 2;
-    //   removed.nonce = noncenew;
-    //   state.toUpdate = removed;
-    //   destinationList.splice(destination.index, 0, removed);
-    // });
   },
 });
 
-export const { reorderTodos } = TodosSlice.actions;
+export const { reorderTodos, removeTodo } = TodosSlice.actions;
 export default TodosSlice.reducer;
