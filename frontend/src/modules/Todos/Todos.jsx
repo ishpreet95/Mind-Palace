@@ -1,11 +1,15 @@
 import classes from "./todos.module.css";
-import { getTodos, reorderTodos } from "../../slices/todosSlice";
+import { getTodos, reorderTodos, updateTodo } from "../../slices/todosSlice";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 import TodoList from "../../components/TodoList/TodoList";
 const Todos = () => {
   const dispatch = useDispatch();
+  const toUpdateData = useSelector((state) => {
+    // console.log(state.todos.updateTodo);
+    state.todos.toUpdate;
+  });
 
   useEffect(() => {
     dispatch(getTodos())
@@ -16,6 +20,18 @@ const Todos = () => {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(toUpdateData);
+    if (toUpdateData !== undefined) {
+      console.log(toUpdateData);
+      dispatch(updateTodo(toUpdateData))
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dispatch, toUpdateData]);
 
   const types = ["noStatus", "upcoming", "inProgress", "completed"];
 
@@ -28,12 +44,10 @@ const Todos = () => {
     const source = result.source;
     const destination = result.destination;
     const draggableId = result.draggableId;
-    console.log({ source, destination, draggableId });
-    dispatch(reorderTodos({ source, destination, draggableId })).catch(
-      (error) => {
-        console.log(error);
-      }
-    );
+    // console.log({ source, destination, draggableId });
+    dispatch(reorderTodos({ source, destination, draggableId }));
+
+    // dispatch(updateTodo(updatedTodo));
   };
 
   return (

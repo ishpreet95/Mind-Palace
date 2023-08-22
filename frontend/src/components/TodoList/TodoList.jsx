@@ -62,8 +62,8 @@ const Todo = (props) => {
               key="model"
               initial={{ opacity: 0, y: 20 }} // Initial animation state
               animate={{ opacity: 1, y: 0 }} // Animation when the card appears
-              exit={{ opacity: 0, y: -10 }} // Animation when the card exits
-              transition={{ duration: 0.3 }} // Animation duration
+              exit={{ opacity: 0, y: -30 }} // Animation when the card exits
+              transition={{ duration: 0.2 }} // Animation duration
             >
               <CreateTodoCard closeCreateTodo={closeCreateTodo} type={type} />
             </motion.div>

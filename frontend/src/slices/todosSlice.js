@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import TodosService from "../services/todos.service";
 import { nanoid } from "nanoid";
-
 function nonceComparator(firstTodo, secondTodo) {
   return firstTodo.nonce - secondTodo.nonce;
 }
 
 const initialState = {
   todo: {},
+  toUpdate: {},
   all: [],
   noStatus: [],
   upcoming: [],
@@ -30,6 +30,16 @@ export const selectListByType = (state, type) => {
   }
 };
 
+export const getTodos = createAsyncThunk("todos/", async () => {
+  const response = await TodosService.getTodos();
+  //when no todos, reset nonce to 100000
+  if (response.data.length === 0) {
+    localStorage.setItem("nonce", 100000);
+  }
+  // console.log(response.data);
+  return response.data;
+});
+
 export const postTodo = createAsyncThunk("todos/postTodo", async (newTodo) => {
   //setting nonce
   let nonce = localStorage.getItem("nonce");
@@ -47,6 +57,12 @@ export const postTodo = createAsyncThunk("todos/postTodo", async (newTodo) => {
   return response.data;
 });
 
+export const updateTodo = createAsyncThunk("todos/updateTodo", async (data) => {
+  console.log(data);
+  const response = await TodosService.updateTodo(data);
+  return response.data;
+});
+
 export const addTodo = createAsyncThunk("todos/addTodo", (newTodo) => {
   //setting nonce
   let nonce = localStorage.getItem("nonce");
@@ -60,24 +76,53 @@ export const addTodo = createAsyncThunk("todos/addTodo", (newTodo) => {
   return newTodo;
 });
 
-export const reorderTodos = createAsyncThunk("todos/reorderTodo", (data) => {
-  return data;
-});
-
-export const getTodos = createAsyncThunk("todos/", async () => {
-  const response = await TodosService.getTodos();
-  //when no todos, reset nonce to 100000
-  if (response.data.length === 0) {
-    localStorage.setItem("nonce", 100000);
-  }
-  // console.log(response.data);
-  return response.data;
-});
+// export const reorderTodos = createAsyncThunk("todos/reorderTodo", (data) => {
+//   return data;
+// });
 
 const TodosSlice = createSlice({
   name: "todos",
   initialState,
-  reducers: {},
+  reducers: {
+    reorderTodos: (state, action) => {
+      const { source, destination, draggableId } = action.payload;
+      const listMapping = {
+        noStatus: state.noStatus,
+        upcoming: state.upcoming,
+        inProgress: state.inProgress,
+        completed: state.completed,
+      };
+      const sourceList = listMapping[source.droppableId];
+      const destinationList = listMapping[destination.droppableId];
+      //locally reordering for now
+      const [removed] = sourceList.splice(source.index, 1);
+      removed.type = destination.droppableId;
+      //if new list is empty, just push the new one, let the nonce be the previous one
+      if (destinationList.length === 0) {
+        destinationList.push(removed);
+        return;
+      }
+      let nonceup = 0;
+      let noncedown = 0;
+      let noncenew = 0;
+      if (destination.index === 0) {
+        //if coming at the first index
+        nonceup = destinationList[destination.index].nonce;
+      }
+      //if going at the last place
+      else if (destination.index === destinationList.length) {
+        nonceup = destinationList[destination.index - 1].nonce;
+        noncedown = 100000;
+      } else {
+        noncedown = destinationList[destination.index].nonce;
+        nonceup = destinationList[destination.index - 1].nonce;
+      }
+      noncenew = (nonceup + noncedown) / 2;
+      removed.nonce = noncenew;
+      state.toUpdate = removed;
+      destinationList.splice(destination.index, 0, removed);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(postTodo.pending, (state) => {
@@ -124,51 +169,54 @@ const TodosSlice = createSlice({
           state.completed.push(newTodo);
         }
       })
-      .addCase(reorderTodos.fulfilled, (state, action) => {
-        const { source, destination, draggableId } = action.payload;
-        const listMapping = {
-          noStatus: state.noStatus,
-          upcoming: state.upcoming,
-          inProgress: state.inProgress,
-          completed: state.completed,
-        };
-        const sourceList = listMapping[source.droppableId];
-        const destinationList = listMapping[destination.droppableId];
-
-        //locally reordering for now
-        const [removed] = sourceList.splice(source.index, 1);
-        removed.type = destination.droppableId;
-
-        //if new list is empty, just push the new one, let the nonce be the previous one
-        if (destinationList.length === 0) {
-          destinationList.push(removed);
-          return;
-        }
-
-        let nonceup = 0;
-        let noncedown = 0;
-        let noncenew = 0;
-
-        if (destination.index === 0) {
-          //if coming at the first index
-          nonceup = destinationList[destination.index].nonce;
-        }
-        //if going at the last place
-        else if (destination.index === destinationList.length) {
-          nonceup = destinationList[destination.index - 1].nonce;
-          noncedown = 100000;
-        } else {
-          noncedown = destinationList[destination.index].nonce;
-          nonceup = destinationList[destination.index - 1].nonce;
-        }
-
-        noncenew = (nonceup + noncedown) / 2;
-
-        removed.nonce = noncenew;
-
-        destinationList.splice(destination.index, 0, removed);
+      .addCase(updateTodo.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(updateTodo.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        state.code = action.error.code;
       });
+    // .addCase(reorderTodos.fulfilled, (state, action) => {
+    //   const { source, destination, draggableId } = action.payload;
+    //   const listMapping = {
+    //     noStatus: state.noStatus,
+    //     upcoming: state.upcoming,
+    //     inProgress: state.inProgress,
+    //     completed: state.completed,
+    //   };
+    //   const sourceList = listMapping[source.droppableId];
+    //   const destinationList = listMapping[destination.droppableId];
+    //   //locally reordering for now
+    //   const [removed] = sourceList.splice(source.index, 1);
+    //   removed.type = destination.droppableId;
+    //   //if new list is empty, just push the new one, let the nonce be the previous one
+    //   if (destinationList.length === 0) {
+    //     destinationList.push(removed);
+    //     return;
+    //   }
+    //   let nonceup = 0;
+    //   let noncedown = 0;
+    //   let noncenew = 0;
+    //   if (destination.index === 0) {
+    //     //if coming at the first index
+    //     nonceup = destinationList[destination.index].nonce;
+    //   }
+    //   //if going at the last place
+    //   else if (destination.index === destinationList.length) {
+    //     nonceup = destinationList[destination.index - 1].nonce;
+    //     noncedown = 100000;
+    //   } else {
+    //     noncedown = destinationList[destination.index].nonce;
+    //     nonceup = destinationList[destination.index - 1].nonce;
+    //   }
+    //   noncenew = (nonceup + noncedown) / 2;
+    //   removed.nonce = noncenew;
+    //   state.toUpdate = removed;
+    //   destinationList.splice(destination.index, 0, removed);
+    // });
   },
 });
 
+export const { reorderTodos } = TodosSlice.actions;
 export default TodosSlice.reducer;

@@ -9,7 +9,6 @@
   --upcoming: #c307e2;
   --inProgress: #2564bf;
   --completed: #1ec103;
-  transition: all 0.3s ease-in-out;
 }
 html,
 body,
@@ -176,11 +175,4 @@ table {
 .dangerBorder {
   stroke-width: 1px;
   border: 2px dashed #ff2121;
-}
-.transition {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-.transition.active {
-  opacity: 1;
 }
