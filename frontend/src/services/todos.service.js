@@ -15,9 +15,19 @@ const getTodos = async () => {
   return response;
 };
 
+const updateTodo = async (id, data) => {
+  // console.log(newTodo);
+  const response = await Axios.axiosTodos.put(`/todo`, {
+    data,
+  });
+  // console.log(response.data);
+  return response;
+};
+
 const TodosService = {
   postTodo,
   getTodos,
+  updateTodo,
 };
 
 export default TodosService;

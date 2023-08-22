@@ -10,7 +10,7 @@
   border-radius: 12px;
   color: black;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.093);
-  transition: transform 0.2s ease, box-shadow 0.15s ease;
+  /* transition: transform 0.2s ease, box-shadow 0.15s ease; */
 }
 .todocard:hover {
   transform: scale(1.017);

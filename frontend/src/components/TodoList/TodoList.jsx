@@ -4,11 +4,14 @@ import TodoCard from "../TodoCard/TodoCard";
 import CreateTodoCard from "../CreateTodoCard/CreateTodoCard";
 import { AnimatePresence, motion } from "framer-motion";
 import { Droppable } from "react-beautiful-dnd";
+import { useSelector } from "react-redux";
+import { selectListByType } from "../../slices/todosSlice";
+
 const Todo = (props) => {
   const [showCreateTodoCard, setShowCreateTodoCard] = useState(false);
-  const data = props.data;
   const type = props.type;
-  // console.log(props);
+  const list = useSelector((state) => selectListByType(state, type));
+  // console.log(list);
   const titles = {
     noStatus: "No Status",
     upcoming: "Upcoming",
@@ -48,7 +51,7 @@ const Todo = (props) => {
           className={classes.count}
           style={{ backgroundColor: `var(--${type})` }}
         >
-          {data.length}
+          {list.length}
         </div>
       </div>
 
@@ -59,8 +62,8 @@ const Todo = (props) => {
               key="model"
               initial={{ opacity: 0, y: 20 }} // Initial animation state
               animate={{ opacity: 1, y: 0 }} // Animation when the card appears
-              exit={{ opacity: 0, y: -10 }} // Animation when the card exits
-              transition={{ duration: 0.3 }} // Animation duration
+              exit={{ opacity: 0, y: -30 }} // Animation when the card exits
+              transition={{ duration: 0.2 }} // Animation duration
             >
               <CreateTodoCard closeCreateTodo={closeCreateTodo} type={type} />
             </motion.div>
@@ -83,7 +86,7 @@ const Todo = (props) => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {data.map((todo, key) => (
+              {list.map((todo, key) => (
                 <TodoCard key={todo.id} todo={todo} index={key} />
               ))}
               {provided.placeholder}

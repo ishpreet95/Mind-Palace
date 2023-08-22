@@ -1,15 +1,15 @@
 import classes from "./todos.module.css";
-import TodoList from "../../components/TodoList/TodoList";
-import { getTodos, reorderTodos } from "../../slices/todosSlice";
-import { useEffect, useState } from "react";
+import { getTodos, reorderTodos, updateTodo } from "../../slices/todosSlice";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
+import TodoList from "../../components/TodoList/TodoList";
 const Todos = () => {
   const dispatch = useDispatch();
-  const noStatusTodos = useSelector((state) => state.todos.noStatus);
-  const upcomingTodos = useSelector((state) => state.todos.upcoming);
-  const inProgressTodos = useSelector((state) => state.todos.inProgress);
-  const completedTodos = useSelector((state) => state.todos.completed);
+  const toUpdateData = useSelector((state) => {
+    // console.log(state.todos.updateTodo);
+    state.todos.toUpdate;
+  });
 
   useEffect(() => {
     dispatch(getTodos())
@@ -21,19 +21,19 @@ const Todos = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   setNoStatusTodos(allTodos.filter((todo) => todo.type === "noStatus"));
-  //   setUpcomingTodos(allTodos.filter((todo) => todo.type === "upcoming"));
-  //   setInProgressTodos(allTodos.filter((todo) => todo.type === "inProgress"));
-  //   setCompletedTodos(allTodos.filter((todo) => todo.type === "completed"));
-  // }, [allTodos]);
+  useEffect(() => {
+    console.log(toUpdateData);
+    if (toUpdateData !== undefined) {
+      console.log(toUpdateData);
+      dispatch(updateTodo(toUpdateData))
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dispatch, toUpdateData]);
 
-  const listMapping = {
-    noStatus: noStatusTodos,
-    upcoming: upcomingTodos,
-    inProgress: inProgressTodos,
-    completed: completedTodos,
-  };
+  const types = ["noStatus", "upcoming", "inProgress", "completed"];
 
   const handleDragAndDrop = (result) => {
     if (!result.destination) {
@@ -44,17 +44,18 @@ const Todos = () => {
     const source = result.source;
     const destination = result.destination;
     const draggableId = result.draggableId;
-    console.log({ source, destination, draggableId });
+    // console.log({ source, destination, draggableId });
     dispatch(reorderTodos({ source, destination, draggableId }));
+
+    // dispatch(updateTodo(updatedTodo));
   };
 
   return (
     <DragDropContext onDragEnd={handleDragAndDrop}>
       <div className={classes.todos}>
-        <TodoList type="noStatus" data={noStatusTodos} />
-        <TodoList type="upcoming" data={upcomingTodos} />
-        <TodoList type="inProgress" data={inProgressTodos} />
-        <TodoList type="completed" data={completedTodos} />
+        {types.map((type, key) => (
+          <TodoList type={type} key={key} />
+        ))}
       </div>
     </DragDropContext>
   );

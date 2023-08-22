@@ -61,14 +61,7 @@ const CreateTodoCard = (props) => {
       });
   };
   return (
-    <motion.div
-      key="model"
-      initial={{ opacity: 0, y: 20 }} // Initial animation state
-      animate={{ opacity: 1, y: 0 }} // Animation when the card appears
-      exit={{ opacity: 0, y: -20 }} // Animation when the card exits
-      transition={{ type: "spring", damping: 10, stiffness: 100 }}
-      className={classes.createtodocard}
-    >
+    <div className={classes.createtodocard}>
       {/* <div className={classes.createtodocard}> */}
       <div className={classes.header}>
         <div className={classes.title}>Create Todo</div>
@@ -144,7 +137,7 @@ const CreateTodoCard = (props) => {
         Done
       </button>
       {/* </div> */}
-    </motion.div>
+    </div>
   );
 };
 

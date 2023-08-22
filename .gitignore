@@ -1,3 +1,4 @@
 */node_modules
 /Mind-Palace.code-workspace
 credentials.txt
+.eslintrc.cjs
