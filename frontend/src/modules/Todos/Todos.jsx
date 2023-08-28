@@ -7,7 +7,6 @@ import TodoList from "../../components/TodoList/TodoList";
 const Todos = () => {
   const dispatch = useDispatch();
   const toUpdateData = useSelector((state) => {
-    // console.log(state.todos.updateTodo);
     return state.todos.toUpdate;
   });
 
@@ -47,10 +46,7 @@ const Todos = () => {
     const source = result.source;
     const destination = result.destination;
     const draggableId = result.draggableId;
-    // console.log({ source, destination, draggableId });
-    dispatch(reorderTodos({ source, destination, draggableId }));
-
-    // dispatch(updateTodo(updatedTodo));
+    dispatch(reorderTodos({ source, destination }));
   };
 
   return (

@@ -47,6 +47,7 @@ const Home = () => {
               display: "flex",
               flex: "1",
               backgroundColor: "transparent",
+              alignItems: "center",
             }}
           >
             <TabList
@@ -56,6 +57,8 @@ const Home = () => {
                 gap: 0.5,
                 borderRadius: "xl",
                 bgcolor: "background.level1",
+                width: "25%",
+                height: "53px",
                 [`& .${tabClasses.root}[aria-selected="true"]`]: {
                   boxShadow: "sm",
                   bgcolor: "background.surface",
@@ -67,8 +70,17 @@ const Home = () => {
                 className="noDecoration"
                 style={{ display: "flex", flex: "1" }}
               >
-                <Tab value={0} disableIndicator sx={{ flex: "1" }}>
-                  To-dos
+                <Tab
+                  value={0}
+                  disableIndicator
+                  sx={{
+                    flex: "1",
+                    fontFamily: "Inter",
+                    fontSize: "1em",
+                    fontWeight: "500",
+                  }}
+                >
+                  Todos
                 </Tab>
               </Link>
               <Link
@@ -76,7 +88,16 @@ const Home = () => {
                 className="noDecoration"
                 style={{ display: "flex", flex: "1" }}
               >
-                <Tab value={1} disableIndicator sx={{ flex: "1" }}>
+                <Tab
+                  value={1}
+                  disableIndicator
+                  sx={{
+                    flex: "1",
+                    fontFamily: "Inter",
+                    fontSize: "1em",
+                    fontWeight: "500",
+                  }}
+                >
                   Notes
                 </Tab>
               </Link>
@@ -89,6 +110,7 @@ const Home = () => {
                 // flex: "1",
                 paddingLeft: "0em",
                 paddingRight: "0em",
+                width: "100%",
               }}
             >
               {/* <Todos /> */}

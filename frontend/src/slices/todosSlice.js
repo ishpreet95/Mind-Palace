@@ -6,6 +6,7 @@ function nonceComparator(firstTodo, secondTodo) {
 }
 
 const initialState = {
+  status: "idle",
   todo: {},
   toUpdate: null,
   all: [],
@@ -86,7 +87,7 @@ const TodosSlice = createSlice({
   initialState,
   reducers: {
     reorderTodos: (state, action) => {
-      const { source, destination, draggableId } = action.payload;
+      const { source, destination } = action.payload;
       const listMapping = {
         noStatus: state.noStatus,
         upcoming: state.upcoming,
@@ -101,6 +102,7 @@ const TodosSlice = createSlice({
       //if new list is empty, just push the new one, let the nonce be the previous one
       if (destinationList.length === 0) {
         destinationList.push(removed);
+        state.toUpdate = removed;
         return;
       }
       let nonceup = 0;
@@ -112,6 +114,7 @@ const TodosSlice = createSlice({
       }
       //if going at the last place
       else if (destination.index === destinationList.length) {
+        //multiply by 2 to neutralize the effect of dividing by 2 later
         nonceup = destinationList[destination.index - 1].nonce * 2;
         noncedown = 100000 * 2;
       } else {
