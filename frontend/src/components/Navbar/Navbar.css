@@ -1,6 +1,5 @@
 .navbar {
   color: #1a1a1a;
-  background-color: white;
   font-size: 20px;
   font-weight: bold;
   padding: 10px;
@@ -11,7 +10,9 @@
   flex: 0 0 auto;
 }
 .navbar .title {
-  font-size: 30px;
-  font-weight: bold;
-  margin-left: 10px;
+  font-size: 55px;
+  margin: 0.2em;
+  font-family: "Chairman";
+  /* color: white; */
+  letter-spacing: 1px;
 }

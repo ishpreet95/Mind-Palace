@@ -19,6 +19,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   margin: `0 0 8px 0`,
   padding: "1em",
+  // transition: "all 1s ease-in-out",
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "grey",
   // styles we need to apply on draggables
@@ -28,6 +29,7 @@ const getListStyle = (isDraggingOver) => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   padding: 8,
   width: 250,
+  transition: "all 1s ease-in-out",
 });
 const Exp = () => {
   //useState
@@ -45,6 +47,13 @@ const Exp = () => {
     {
       id: "2",
       title: "hlo",
+      endDate: "2023-08-15T18:01:24.436Z",
+      severity: 0,
+      type: "noStatus",
+    },
+    {
+      id: "3",
+      title: "hllo",
       endDate: "2023-08-15T18:01:24.436Z",
       severity: 0,
       type: "noStatus",
@@ -149,7 +158,7 @@ const Exp = () => {
       </div>
       <BlockNoteView editor={editor} />
       {/* <BlockNoteEditor /> */}
-      <div
+      {/* <div
         style={{
           backgroundColor: "black",
           padding: "1em",
@@ -183,11 +192,11 @@ const Exp = () => {
           <AnimatePresence>
             {toggle ? (
               <motion.div
-                key="model"
-                initial={{ opacity: 0, y: 20 }} // Initial animation state
-                animate={{ opacity: 1, y: 0 }} // Animation when the card appears
-                exit={{ opacity: 0, y: -20 }} // Animation when the card exits
-                transition={{ duration: 0.5 }} // Animation duration
+              // key="model"
+              // initial={{ opacity: 0, y: 20 }} // Initial animation state
+              // animate={{ opacity: 1, y: 0 }} // Animation when the card appears
+              // exit={{ opacity: 0, y: -20 }} // Animation when the card exits
+              // transition={{ duration: 0.5 }} // Animation duration
               >
                 <div style={{ backgroundColor: "green", padding: "1em" }}>
                   one
@@ -212,7 +221,7 @@ const Exp = () => {
             toggle
           </button>
         </div>
-      </div>
+      </div> */}
 
       <DragDropContext
         onBeforeCapture={onBeforeCapture}

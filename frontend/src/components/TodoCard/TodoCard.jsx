@@ -10,9 +10,13 @@ import MenuItem from "@mui/joy/MenuItem";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { Draggable } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
+import { deleteTodo, removeTodo } from "../../slices/todosSlice";
 
 const TodoCard = (props) => {
+  const dispatch = useDispatch();
   const todo = props.todo;
+  // console.log(todo.type);
   const currentDate = dayjs();
   const endDate = dayjs(todo.endDate);
   let dueDate = endDate.format("DD MMM YYYY");
@@ -31,7 +35,13 @@ const TodoCard = (props) => {
     0: "Low",
   };
   const deleteTodoHandler = () => {
+    dispatch(removeTodo({ id: todo.id, type: todo.type }));
     console.log("delete todo");
+    dispatch(deleteTodo(todo.id))
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <Draggable draggableId={todo.id} index={props.index}>

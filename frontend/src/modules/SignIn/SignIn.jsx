@@ -93,8 +93,8 @@ const SignIn = () => {
             marginTop: "0.5em",
           }}
         >
-          <Logo />
-          <span className="title mainFont">Mind Palace</span>
+          {/* <Logo /> */}
+          <span className="title chairmanFont">Mind Palace</span>
         </div>
         <SignInVector />
       </div>
