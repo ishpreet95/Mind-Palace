@@ -80,6 +80,7 @@ const CreateTodoCard = (props) => {
             fontSize: "16px",
             fontWeight: "400",
           }}
+          value={todo}
           onChange={(e) => setTodo(e.target.value)}
         />
       </div>

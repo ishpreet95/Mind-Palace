@@ -158,6 +158,9 @@ table {
 .mainFont {
   font-family: "DM Serif Display", serif;
 }
+.chairmanFont {
+  font-family: "Chairman", serif;
+}
 .altFont {
   font-family: "Lato", sans-serif;
 }
