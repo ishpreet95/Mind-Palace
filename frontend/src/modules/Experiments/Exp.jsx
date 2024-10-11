@@ -6,7 +6,13 @@ import {
 import { Reorder } from "framer-motion";
 // import expReducer from "../../reducers";
 // import { BlockNoteEditor } from "@blocknote/core";
-import { BlockNoteView, useBlockNote } from "@blocknote/react";
+import {
+  BlockNoteView,
+  useBlockNote,
+  // FormattingToolbar,
+  // SlashMenu,
+  // HyperLinkToolbar,
+} from "@blocknote/react";
 import { AnimatePresence, motion } from "framer-motion";
 import "@blocknote/core/style.css";
 import CreateTodoCard from "../../components/CreateTodoCard/CreateTodoCard";
@@ -156,7 +162,11 @@ const Exp = () => {
         <button onClick={() => dispatch({ type: "increment" })}>+</button>
         <button onClick={() => dispatch({ type: "decrement" })}>-</button> */}
       </div>
-      <BlockNoteView editor={editor} />
+      <BlockNoteView editor={editor}>
+        {/* <FormattingToolbar editor={editor} />
+        <SlashMenu editor={editor} />
+        <HyperLinkToolbar editor={editor} /> */}
+      </BlockNoteView>
       {/* <BlockNoteEditor /> */}
       {/* <div
         style={{
