@@ -8,7 +8,6 @@ import Menu from "@mui/joy/Menu";
 import MenuButton from "@mui/joy/MenuButton";
 import MenuItem from "@mui/joy/MenuItem";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { deleteTodo, removeTodo } from "../../slices/todosSlice";

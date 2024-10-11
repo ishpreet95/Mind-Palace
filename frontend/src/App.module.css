@@ -11,7 +11,7 @@
     #ffffff
   ); */
   /* backdrop-filter: blur(5px); */
-  background-image: url("./assets/layers2.svg");
+  background-image: url("./assets/blob.svg");
   background-repeat: no-repeat;
   background-size: cover;
 }
