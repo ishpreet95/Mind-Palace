@@ -36,6 +36,10 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
 // app.set("view engine", "ejs");
 
+app.get("/", (req, res) => {
+  res.send("Welcome to Mind Palace API");
+});
+
 app.get("/health-check", (req, res) => {
   res.sendStatus(200);
 });
