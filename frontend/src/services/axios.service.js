@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosAuth = axios.create({
-  baseURL: "http://localhost:5000/api/v1/auth",
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -10,7 +10,7 @@ const axiosAuth = axios.create({
 });
 
 const axiosTodos = axios.create({
-  baseURL: "http://localhost:5000/api/v1/todos",
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/v1/todos`,
   headers: {
     "Content-Type": "application/json",
   },
