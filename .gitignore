@@ -2,3 +2,7 @@
 /Mind-Palace.code-workspace
 credentials.txt
 .eslintrc.cjs
+yarn.lock
+yarn-error.log
+/dist
+.DS_Store
