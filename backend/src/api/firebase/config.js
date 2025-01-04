@@ -13,6 +13,7 @@ var serviceAccount = {
     process.env.SERVICE_ACCOUNT_AUTH_PROVIDER_X509_CERT_URL,
   client_x509_cert_url: process.env.SERVICE_ACCOUNT_CLIENT_X509_CERT_URL,
   universe_domain: process.env.SERVICE_ACCOUNT_UNIVERSE_DOMAIN,
+  auth_domain: process.env.SERVICE_ACCOUNT_AUTH_DOMAIN,
 };
 
 admin.initializeApp({

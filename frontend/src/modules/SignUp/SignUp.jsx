@@ -40,7 +40,12 @@ const SignUp = () => {
     setOpen(true);
   };
   const GoogleSignUpHandler = () => {
-    window.open("http://localhost:5000/api/v1/auth/google", "_self");
+    console.log(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/google`);
+    return;
+    window.open(
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/google`,
+      "_self"
+    );
   };
   //snackbar functions
   const handleClose = (event, reason) => {
