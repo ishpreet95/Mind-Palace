@@ -4,7 +4,7 @@ require("dotenv").config();
 const router = require("express").Router();
 
 router.route("/").get(async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   const todosRef = db
     .collection("users")
     .doc(`${req.user}`)
@@ -28,7 +28,7 @@ router.route("/todo").post(async (request, response) => {
     .doc(newTodo.id);
   // //putting auto generated id in newTodo
   // newTodo.id = statusDoc.id;
-  console.log(newTodo);
+  // console.log(newTodo);
   const res = await statusDoc.set(newTodo);
   response.status(200).send("Todo added");
 });
@@ -53,7 +53,7 @@ router.route("/todo").put(async (request, response) => {
 
 router.route("/todo/:id").delete(async (request, response) => {
   const id = request.params.id;
-  console.log(id);
+  // console.log(id);
   const statusDoc = db
     .collection("users")
     .doc(`${request.user}`)

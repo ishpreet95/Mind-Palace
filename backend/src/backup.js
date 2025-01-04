@@ -79,7 +79,7 @@ app.get(
       console.log("User does not exist, new profile created");
       await userDoc.set(user);
     } else {
-      console.log("User exists: ", doc.data());
+      // console.log("User exists: ", doc.data());
     }
     // Redirects home.
     res.redirect(`${process.env.CLIENT_URL}`);
