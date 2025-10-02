@@ -1,7 +1,5 @@
 const express = require("express");
-const strat = require("./api/passport/google-oauth");
 const session = require("express-session");
-const passport = require("passport");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const db = require("./api/firebase/config");
@@ -28,24 +26,6 @@ app.use(
     },
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
-
-//sets user in session
-passport.serializeUser(function (user, done) {
-  process.nextTick(function () {
-    //setting user.sub as user_id in session
-    const decodedToken = jwt.decode(user.id_token);
-    const user_id = decodedToken.sub;
-    return done(null, user_id);
-  });
-});
-//dont know what it does
-passport.deserializeUser(function (user, done) {
-  process.nextTick(function () {
-    return done(null, user);
-  });
-});
 
 //
 app.use(express.urlencoded({ extended: true }));
@@ -53,16 +33,8 @@ app.use(express.urlencoded({ extended: true }));
 // app.set("view engine", "ejs");
 
 app.get(
-  "/auth/google",
-  //here email parameter is necessary, passport can't identify unique user without email
-  strat.authenticate("google", { scope: ["profile", "email"] })
-);
-
-app.get(
   "/auth/google/callback",
-  strat.authenticate("google", {
-    failureRedirect: "/auth/google",
-  }),
+  () => {},
   async (req, res) => {
     //On successful authentication
     const decodedToken = jwt.decode(req.user.id_token);
