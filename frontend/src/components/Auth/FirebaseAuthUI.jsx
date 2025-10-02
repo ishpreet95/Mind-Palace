@@ -15,7 +15,7 @@ const FirebaseAuthUI = () => {
   useEffect(() => {
     const uiConfig = {
       signInOptions: [GoogleAuthProvider.PROVIDER_ID],
-      signInSuccessUrl: "/todos",
+      signInSuccessUrl: window.location.origin + "/todos",
       callbacks: {
         signInSuccessWithAuthResult: async (authResult) => {
           const user = authResult.user;
