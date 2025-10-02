@@ -1,5 +1,5 @@
 // FirebaseAuthUI.jsx
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { auth } from "../../firebaseConfig";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
@@ -15,7 +15,7 @@ const FirebaseAuthUI = () => {
   useEffect(() => {
     const uiConfig = {
       signInOptions: [GoogleAuthProvider.PROVIDER_ID],
-      signInFlow: "popup",
+      signInSuccessUrl: "/todos",
       callbacks: {
         signInSuccessWithAuthResult: async (authResult) => {
           const user = authResult.user;
