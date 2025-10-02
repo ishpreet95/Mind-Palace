@@ -4,38 +4,44 @@ import Tabs from "@mui/joy/Tabs";
 import TabList from "@mui/joy/TabList";
 import Tab, { tabClasses } from "@mui/joy/Tab";
 import TabPanel from "@mui/joy/TabPanel";
-import Notes from "../Notes/Notes.jsx";
-import Todos from "../Todos/Todos.jsx";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import { exampleOne } from "../../slices/exampleSlice.js";
-import { getUser } from "../../slices/authSlice.js";
-import classes from "./home.module.css";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import { getUser, clearUser } from "../../slices/authSlice.js";
 
 const Home = () => {
-  // const exampleOut=useSelector()
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-
+  const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
+
   useEffect(() => {
-    dispatch(getUser())
-      .then(() => {})
-      .catch((error) => {
-        console.log(error);
-        if (error.response && error.response.status === 401) {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log("Firebase user is signed in:", user.displayName);
+        try {
+          // User is signed in, try to get user data
+          await dispatch(getUser()).unwrap();
+        } catch (error) {
+          console.error("Error fetching user:", error);
+          dispatch(clearUser());
           navigate("/sign-in");
         }
-      });
-  }, []);
+      } else {
+        console.log("No Firebase user signed in");
+        dispatch(clearUser());
+        navigate("/sign-in");
+      }
+    });
 
-  if (auth.error === "user not logged in") {
-    navigate("/sign-in");
-  }
+    return () => unsubscribe();
+  }, [dispatch, navigate]);
+
+  console.log("Auth state:", authState);
 
   return (
     <>
-      {auth.userId ? (
+      {authState.isLoggedIn && authState.user ? (
         // <div className={classes.app}>
         //   <Navbar />
         //   <div className={classes.content}>

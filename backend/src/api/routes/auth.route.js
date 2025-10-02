@@ -1,74 +1,73 @@
-// const app = require("../config/express");
-
-const strat = require("../passport/google-oauth");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
+const admin = require("firebase-admin");
 const db = require("../firebase/config");
 require("dotenv").config();
 
 const router = require("express").Router();
 
-//sets user in session
-passport.serializeUser(function (user, done) {
-  process.nextTick(function () {
-    //setting user.sub as user_id in session
-    const decodedToken = jwt.decode(user.id_token);
-    const user_id = decodedToken.sub;
-    return done(null, user_id);
-  });
-});
+// Middleware to verify Firebase ID token
+const verifyFirebaseToken = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-//dont know what it does
-passport.deserializeUser(function (user, done) {
-  process.nextTick(function () {
-    return done(null, user);
-  });
-});
-
-//where the frontend calls for google authentication
-router.route("/google").get(
-  //here email parameter is necessary, passport can't identify unique user without email
-  strat.authenticate("google", { scope: ["profile", "email"] })
-);
-
-//getting user_id from session
-router.route("/user").get((req, res) => {
-  // console.log(req.session);
-  if (req.user === undefined) {
-    return res.status(401).send("user not logged in");
-    // res.redirect(`${process.env.CLIENT_URL}/sign-up`);
-  } else {
-    return res.send(req.user);
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
-});
 
-//result of google authentication and storing in db
-router.route("/google/callback").get(
-  strat.authenticate("google", {
-    failureRedirect: "/auth/google",
-  }),
-  async (req, res) => {
-    //On successful authentication
-    const decodedToken = jwt.decode(req.user.id_token);
-    const user = {
-      email: decodedToken.email,
-      name: decodedToken.name,
-      picture: decodedToken.picture,
-      created_at: decodedToken.iat,
-      email_verified: decodedToken.email_verified,
-    };
-    const userDoc = db.collection("users").doc(decodedToken.sub);
+  const idToken = authHeader.split("Bearer ")[1];
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    req.user = decodedToken;
+    next();
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ error: "Unauthorized: Invalid token" });
+  }
+};
+
+// Verify token and get/create user
+router.route("/verify").post(verifyFirebaseToken, async (req, res) => {
+  try {
+    const { uid, email, name, picture, email_verified } = req.user;
+
+    const userDoc = db.collection("users").doc(uid);
     const doc = await userDoc.get();
+
     if (!doc.exists) {
-      console.log("User does not exist, new profile created");
-      await userDoc.set(user);
+      const newUser = {
+        email,
+        name,
+        picture,
+        email_verified,
+        created_at: admin.firestore.FieldValue.serverTimestamp(),
+      };
+      await userDoc.set(newUser);
+      return res.status(201).json({ uid, ...newUser });
     } else {
-      // console.log("User exists: ", doc.data());
+      return res.status(200).json({ uid, ...doc.data() });
     }
-    // Redirects home.
-    res.redirect(`${process.env.CLIENT_URL}`);
+  } catch (error) {
+    console.error("Error creating/fetching user:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
-);
+});
+
+// Get current user (protected route)
+router.route("/user").get(verifyFirebaseToken, async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const userDoc = db.collection("users").doc(uid);
+    const doc = await userDoc.get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ uid, ...doc.data() });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 router.route("/health-check").get((req, res) => {
   res.sendStatus(200);

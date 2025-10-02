@@ -3,29 +3,41 @@ import AuthService from "../services/auth.service";
 
 const initialState = {
   isLoggedIn: false,
-  userId: null,
+  user: null,
   status: "idle",
   error: null,
 };
 
 export const getUser = createAsyncThunk("auth/getUser", async () => {
-  try {
-    const response = await AuthService.getUser();
+  const response = await AuthService.getUser();
+  return response.data;
+});
+
+export const verifyUser = createAsyncThunk(
+  "auth/verifyUser",
+  async (idToken) => {
+    const response = await AuthService.verifyUser(idToken);
     return response.data;
-  } catch (error) {
-    // Extract relevant error information for the store
-    const errorPayload = {
-      message: error.response?.data,
-      code: error.response?.status,
-    };
-    throw errorPayload; // Throw the serializable payload
   }
+);
+
+export const logout = createAsyncThunk("auth/logout", async () => {
+  await AuthService.logout();
 });
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+      state.isLoggedIn = !!action.payload;
+    },
+    clearUser: (state) => {
+      state.user = null;
+      state.isLoggedIn = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUser.pending, (state) => {
@@ -33,16 +45,32 @@ const authSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        //on successfull response, we update the state with the return value of the action
-        state.userId = action.payload;
-        //can also return an object, it will be received as a param in the then of action
+        state.user = action.payload;
         state.isLoggedIn = true;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(verifyUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(verifyUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+        state.isLoggedIn = true;
+      })
+      .addCase(verifyUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+        state.isLoggedIn = false;
+        state.status = "idle";
       });
   },
 });
 
+export const { setUser, clearUser } = authSlice.actions;
 export default authSlice.reducer;
