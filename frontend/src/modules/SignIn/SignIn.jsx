@@ -1,9 +1,15 @@
 import "./SignIn.css";
 import SignInVector from "../../assets/SignInVector";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import FirebaseAuthUI from "../../components/Auth/FirebaseAuthUI";
+import { useSelector } from "react-redux";
 
 const SignIn = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  if (isLoggedIn) {
+    return <Navigate to="/todos" replace />;
+  }
+
   return (
     <div className="signInBox">
       {/* Left half of sign up page */}

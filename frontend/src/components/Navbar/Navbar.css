@@ -4,7 +4,7 @@
   font-weight: bold;
   padding: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   z-index: 1;
   flex: 0 0 auto;
@@ -15,4 +15,20 @@
   font-family: "Chairman";
   /* color: white; */
   letter-spacing: 1px;
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
 }
