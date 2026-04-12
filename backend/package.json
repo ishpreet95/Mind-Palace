@@ -2,12 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "start": "nodemon src/server.js",
     "dev": "nodemon src/server.js"
   },
   "engines": {
-    "node": "22.x"
+    "node": ">=22"
   },
   "author": "ishpreet95",
   "license": "MIT",
@@ -19,5 +20,10 @@
     "firebase-admin": "^11.9.0",
     "jsonwebtoken": "^9.0.1",
     "nodemon": "^2.0.22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "protobufjs"
+    ]
   }
 }
